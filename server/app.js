@@ -1,5 +1,11 @@
 import  express from "express";
 import config from "./config.js";
+import usersRoute from "./routes/usersRoute.js"
+import albumsRoute from "./routes/albumsRoute.js";
+import commentsRoute from "./routes/photosRoute.js";
+import photosRoute from "./routes/photosRoute.js";
+import postsRoute from "./routes/postsRoute.js";
+import todosRoute from "./routes/todosRoute.js";
 const app = express();
 app.use(express.json());
 
