@@ -1,6 +1,6 @@
 
 
-import { AlbumsService } from '../service/albumsService.js'
+import { AlbumsService } from '../services/albumsService.js'
 export class albumsController {
 
     async getAlbumsPhotos(req, res, next) {

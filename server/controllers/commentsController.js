@@ -1,6 +1,6 @@
 
 
-import { CommentsService } from '../service/commentsService.js'
+import { CommentsService } from '../services/commentsService.js'
 export class CommentsController {
 
     async getComments(req, res, next) {
