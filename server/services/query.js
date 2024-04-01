@@ -20,8 +20,8 @@ function updateQuery(table_name, column_name, columns , values) {
     return query
 }
 
-function createQuery(table_name, column_name, columns , values) {
-    const query = `INSERT INTO ${table_name} SET (${columns}) VALUES (${values}) WHERE ${column_name} = ? `;
+function createQuery(table_name, columns , values) {
+    const query = `INSERT INTO ${table_name} SET (${columns}) VALUES (${values})`;
     return query
 }
 
