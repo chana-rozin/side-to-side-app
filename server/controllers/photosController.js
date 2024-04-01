@@ -1,13 +1,13 @@
 
 
-import { photosService } from '../service/photosService.js'
+import { PhotosService } from '../service/photosService.js'
 export class PhotosController {
 
     async getPhotos(req, res, next) {
         try {
 
-            const PhotosService = new PhotosService();
-            const resultItems = await PhotosService.getPhotos()
+            const photosService = new PhotosService();
+            const resultItems = await photosService.getPhotos()
             return res.status(200).json(resultItems);
         }
         catch (ex) {
