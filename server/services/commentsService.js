@@ -17,17 +17,17 @@ export class CommentsService {
     }
 
     async addComment(commentItem) {
-        const columns = "postId name email body";
+        const columns = "postId, name, email, body";
         const values = commentToString(commentItem);
         const queryComment = createQuery("comments", columns, values);
         const result =  await executeQuery(queryComment);
         return result;
     }
 
-    async updateComment(commentItem) {
-        const columns = `postId = ? name = ? email = ? body = ?`;
+    async updateComment(commentItem, id) {
+        const columns = `postId = ?, name = ?, email = ?, body = ?`;
         const queryComment = updateQuery("comments","postId", columns);
-        const result =  await executeQuery(queryComment, [commentItem.postId,commentItem.name,commentItem.email,commentItem.body]);
+        const result =  await executeQuery(queryComment, [commentItem.postId,commentItem.name,commentItem.email,commentItem.body, id]);
         return result;
     }
 
@@ -40,5 +40,5 @@ export class CommentsService {
 }
 
 function commentToString(commentItem){
-    return `${commentItem.postId} ${commentItem.name} ${commentItem.email} ${commentItem.body}`
+    return `${commentItem.postId}, ${commentItem.name}, ${commentItem.email}, ${commentItem.body}`
 }

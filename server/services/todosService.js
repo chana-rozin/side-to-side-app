@@ -29,17 +29,17 @@ export class TodosService {
         return result;
     }
 
-    async updateTodo(todoItem){
-        stringTodoItem = todoToString(todoItem);
+    async updateTodo(todoItem, id){
+        const stringTodoItem = todoToString(todoItem)`userId, title, completed`;
         const queryTodo = updateQuery('todos', 'id',  stringTodoItem);
-        const result =  await executeQuery(queryTodo, [id]);
+        const result =  await executeQuery(queryTodo, [todoItem.userId,todoItem.title,todoItem.completed,id]);
         return result;
     }
 
     
 }
 function todoToString(todo){
-    const stringTodo = `userId = ${todo.userId}, title = ${todo.title}, completed = ${todo.completed}`;
+    const stringTodo = `${todo.userId}, ${todo.title}, ${todo.completed}`;
     return stringTodo;
 
 }

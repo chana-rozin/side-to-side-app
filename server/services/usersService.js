@@ -16,8 +16,9 @@ export class UsersService {
     }
 
     async addUser(userItem) {
-        const queryUser = createQuery('users', `name, username, email, address, phone`);
-        const result =  await executeQuery(queryUser, [user.name, user.username, user.email, user.address, user.phone]);
+        const columns = `name, username, email, address, phone`
+        const queryUser = createQuery('users', columns, userToString(userItem));
+        const result =  await executeQuery(queryUser, [userItem.name, userItem.username, userItem.email, userItem.address, userItem.phone]);
         return result;
 
     }
@@ -29,8 +30,9 @@ export class UsersService {
     }
 
     async updateUser(userItem){
-        const queryUser = updateQuery('users', 'id', `name = ?, username = ?, email = ?, address = ?, phone = ?`);
-        const result =  await executeQuery(queryUser, [id, user.name, user.username, user.email, user.address, user.phone]);
+        const columns = "name =?, userName =?, email=?, address=?, phone=?"
+        const queryUser = updateQuery('users', 'id', columns);
+        const result =  await executeQuery(queryUser, [userItem.name, userItem.username, userItem.email, userItem.address, userItem.phone, id]);
         return result;
     }
 
@@ -55,4 +57,8 @@ export class UsersService {
 }
 
 
+function userToString(user){
+    const stringTodo = `${userItem.name}, ${userItem.username}, ${userItem.email}, ${userItem.address}, ${userItem.phone}`;
+    return stringTodo;
 
+}

@@ -24,10 +24,10 @@ export class PhotosService {
         return result;
     }
 
-    async updatePhoto(photoItem) {
+    async updatePhoto(photoItem, id) {
         const columns = `albumId = ? url = ? title = ?`;
         const queryPhoto = updateQuery("photos","id", columns);
-        const result =  await executeQuery(queryPhoto,[photoItem.albumId,photoItem.url,photoItem.title]);
+        const result =  await executeQuery(queryPhoto,[photoItem.albumId,photoItem.url,photoItem.title, id]);
         return result;
     }
 
@@ -40,5 +40,5 @@ export class PhotosService {
 }
 
 function photoToString(photoItem){
-    return `${photoItem.albumId} ${photoItem.url} ${photoItem.title}`
+    return `${photoItem.albumId}, ${photoItem.url}, ${photoItem.title}`
 }
