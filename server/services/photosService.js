@@ -18,6 +18,8 @@ export class PhotosService {
 
     async addPhoto(PhotoItem) {
         // call db add item
-
+        const queryPhoto = getTetsByIdQuery();
+        const result =  await executeQuery(queryPhoto, [id]);
+        return result;
     }
 }
