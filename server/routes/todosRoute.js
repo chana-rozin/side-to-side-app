@@ -1,16 +1,15 @@
 import express from "express";
-import { todosController } from '../controllers/todosController.js';
+import { TodosController } from '../controllers/todosController.js';
 const todosRouter = express.Router();
 
 const todoscontroller = new TodosController();
 
-todosRouter.get("/:id", todoscontroller.getTodosById);
+todosRouter.get("/:id", todoscontroller.getTodoById);
 todosRouter.get("/", todoscontroller.getTodos);
-todosRouter.post("/", todoscontroller.addTodos);
-todosRouter.delete("/:id", todoscontroller.deleteTodos);
-todosRouter.put("/:id", todoscontroller.updateTodos);
+todosRouter.post("/", todoscontroller.addTodo);
+todosRouter.delete("/:id", todoscontroller.deleteTodo);
+todosRouter.put("/:id", todoscontroller.updateTodo);
 
 
-export {
+export default
     todosRouter
-}

@@ -11,6 +11,5 @@ commentsRouter.post("/", commentscontroller.addComment)
 commentsRouter.delete("/:id", commentscontroller.deleteComment)
 commentsRouter.put("/:id", commentscontroller.updateComment)
 
-export {
+export default
     commentsRouter
-}
