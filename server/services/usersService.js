@@ -16,9 +16,8 @@ export class UsersService {
     }
 
     async addUser(userItem) {
-        stringUserItem = userToString(userItem);
-        const queryUser = createQuery('users', stringUserItem);
-        const result =  await executeQuery(queryUser);
+        const queryUser = createQuery('users', `name, username, email, address, phone`);
+        const result =  await executeQuery(queryUser, [user.name, user.username, user.email, user.address, user.phone]);
         return result;
 
     }
@@ -30,9 +29,8 @@ export class UsersService {
     }
 
     async updateUser(userItem){
-        stringUserItem = userToString(userItem);
-        const queryUser = updateQuery('users', 'id', stringUserItem);
-        const result =  await executeQuery(queryUser, [id]);
+        const queryUser = updateQuery('users', 'id', `name = ?, username = ?, email = ?, address = ?, phone = ?`);
+        const result =  await executeQuery(queryUser, [id, user.name, user.username, user.email, user.address, user.phone]);
         return result;
     }
 
@@ -55,8 +53,6 @@ export class UsersService {
 
     
 }
-function userToString(user){
-    stringUser = `name = ${user.name}, username = ${user.username}, email = ${user.email}, address = ${user.address}, phone = ${user.phone}`;
-    return stringUser;
 
-}
+
+
