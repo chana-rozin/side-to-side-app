@@ -1,5 +1,5 @@
 import  express from "express";
-import config from "./config.js";
+import 'dotenv/config'
 import usersRoute from "./routes/usersRoute.js"
 import albumsRoute from "./routes/albumsRoute.js";
 import commentsRoute from "./routes/photosRoute.js";
@@ -16,4 +16,4 @@ app.use("/comments", commentsRoute);
 app.use("/albums", albumsRoute);
 app.use("/photos", photosRoute);
 
-app.listen(config.port, () => console.log(`listening on port: ${port}`));
+app.listen(process.env.PORT, () => console.log(`listening on port: ${process.env.PORT}`));
