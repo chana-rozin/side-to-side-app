@@ -1,25 +1,45 @@
 
 import { executeQuery } from './db.js';
-import { getTetsQuery ,getTetsByIdQuery} from './queryPhotos.js'
+import {getByIdQuery, getQuery, deleteQuery, updateQuery, createQuery } from './query.js'
 
 export class PhotosService {
 
     async getPhotos() {
-        const queryPhotos = getTetsQuery();
-        const result = await executeQuery(queryPhotos);
+        const queryPhoto = getQuery("photos");
+        const result = await executeQuery(queryPhoto);
         return result;
     }
 
     async getPhotoById(id) {
-        const queryPhoto = getTetsByIdQuery();
+        const queryPhoto = getByIdQuery("photos");
         const result =  await executeQuery(queryPhoto, [id]);
         return result;
     }
 
-    async addPhoto(PhotoItem) {
-        // call db add item
-        const queryPhoto = getTetsByIdQuery();
+    async addPhoto(photoItem) {
+        const columns = "albumId url title";
+        const values = photoToString(photoItem);
+        const queryPhoto = createQuery("photos", columns, values);
+        const result =  await executeQuery(queryPhoto);
+        return result;
+    }
+
+    async updatePhoto(photoItem) {
+        const columns = "albumId url title";
+        const values = photoToString(photoItem);
+        const queryPhoto = updateQuery("photos","id", columns, values);
+        const result =  await executeQuery(queryPhoto);
+        return result;
+    }
+
+    async deletePhoto(id) {
+        const queryPhoto = deleteQuery("photos", "id");
         const result =  await executeQuery(queryPhoto, [id]);
         return result;
     }
+
+}
+
+function photoToString(photoItem){
+    return `${photoItem.albumId} ${photoItem.url} ${photoItem.title}`
 }
