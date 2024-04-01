@@ -1,4 +1,4 @@
-import { TodosService } from '../service/todosService.js'
+import { TodosService } from '../services/todosService.js'
 export class TodosController {
 
     async getTodos(req, res, next) {

@@ -1,4 +1,4 @@
-import { PostsService } from '../service/postsService.js'
+import { PostsService } from '../services/postsService.js'
 export class PostsController {
 
     async getPosts(req, res, next) {
