@@ -15,8 +15,8 @@ function deleteQuery(table_name,column_name) {
     return query
 }
 
-function updateQuery(table_name, column_name, columns , values) {
-    const query = `UPDATE ${table_name} SET (${columns}) VALUES (${values}) WHERE ${column_name} = ? `;
+function updateQuery(table_name, column_name, columns) {
+    const query = `UPDATE ${table_name} SET ${columns} WHERE ${column_name} = ? `;
     return query
 }
 

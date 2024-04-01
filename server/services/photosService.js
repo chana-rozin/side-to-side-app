@@ -11,7 +11,7 @@ export class PhotosService {
     }
 
     async getPhotoById(id) {
-        const queryPhoto = getByIdQuery("photos");
+        const queryPhoto = getByIdQuery("photos", "id");
         const result =  await executeQuery(queryPhoto, [id]);
         return result;
     }
@@ -25,9 +25,8 @@ export class PhotosService {
     }
 
     async updatePhoto(photoItem) {
-        const columns = "albumId url title";
-        const values = photoToString(photoItem);
-        const queryPhoto = updateQuery("photos","id", columns, values);
+        const columns = `albumId = ${photoItem.albumId} url = ${photoItem.url} title = ${photoItem.title}`;
+        const queryPhoto = updateQuery("photos","id", columns);
         const result =  await executeQuery(queryPhoto);
         return result;
     }
