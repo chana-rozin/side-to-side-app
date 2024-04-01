@@ -25,9 +25,9 @@ export class CommentsService {
     }
 
     async updateComment(commentItem) {
-        const columns = `postId = ${commentItem.postId} name = ${commentItem.name} email = ${commentItem.email} body = ${commentItem.body}`;
+        const columns = `postId = ? name = ? email = ? body = ?`;
         const queryComment = updateQuery("comments","postId", columns);
-        const result =  await executeQuery(queryComment);
+        const result =  await executeQuery(queryComment, [commentItem.postId,commentItem.name,commentItem.email,commentItem.body]);
         return result;
     }
 

@@ -2,6 +2,7 @@
 import { executeQuery } from './db.js';
 import {getByIdQuery, getQuery, deleteQuery, updateQuery, createQuery } from './query.js'
 
+
 export class AlbumsService {
 
     async getAlbums() {
@@ -31,9 +32,9 @@ export class AlbumsService {
     }
 
     async updateAlbum(AlbumItem) {
-        const columns = `userId = ${AlbumItem.userId} title = ${AlbumItem.title}`;
+        const columns = `userId = ? title = ?`;
         const queryAlbum = updateQuery("albums","id", columns);
-        const result =  await executeQuery(queryAlbum);
+        const result =  await executeQuery(queryAlbum,[AlbumItem.userId,AlbumItem.title]);
         return result;
     }
 
@@ -43,8 +44,4 @@ export class AlbumsService {
         return result;
     }
 
-}
-
-function albumToString(AlbumItem){
-    return `${AlbumItem.userId} ${AlbumItem.title}`
 }

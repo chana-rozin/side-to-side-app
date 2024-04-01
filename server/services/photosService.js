@@ -25,9 +25,9 @@ export class PhotosService {
     }
 
     async updatePhoto(photoItem) {
-        const columns = `albumId = ${photoItem.albumId} url = ${photoItem.url} title = ${photoItem.title}`;
+        const columns = `albumId = ? url = ? title = ?`;
         const queryPhoto = updateQuery("photos","id", columns);
-        const result =  await executeQuery(queryPhoto);
+        const result =  await executeQuery(queryPhoto,[photoItem.albumId,photoItem.url,photoItem.title]);
         return result;
     }
 
