@@ -1,4 +1,5 @@
 import { UsersService } from '../service/usersService.js'
+
 export class UsersController {
 
     async getUsers(req, res, next) {
@@ -79,7 +80,7 @@ export class UsersController {
         try {
 
             const usersService = new UsersService();
-            const resultItems = await usersService.getUsersAlbums()
+            const resultItems = await usersService.getUsersAlbums(req.params.id)
             return res.status(200).json(resultItems);
         }
         catch (ex) {
@@ -94,7 +95,7 @@ export class UsersController {
         try {
 
             const usersService = new UsersService();
-            const resultItems = await usersService.getUsersPosts()
+            const resultItems = await usersService.getUsersPosts(req.params.id)
             return res.status(200).json(resultItems);
         }
         catch (ex) {
@@ -109,7 +110,7 @@ export class UsersController {
         try {
 
             const usersService = new UsersService();
-            const resultItems = await usersService.getUsersTodos()
+            const resultItems = await usersService.getUsersTodos(req.params.id)
             return res.status(200).json(resultItems);
         }
         catch (ex) {

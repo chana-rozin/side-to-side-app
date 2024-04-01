@@ -17,7 +17,7 @@ export class TodosService {
 
     async addTodo(todoItem) {
         stringTodoItem = todoToString(todoItem);
-        const queryTodo = createQuery('todos', todoColomns, stringTodoItem);
+        const queryTodo = createQuery('todos', stringTodoItem);
         const result =  await executeQuery(queryTodo);
         return result;
 
@@ -31,16 +31,15 @@ export class TodosService {
 
     async updateTodo(todoItem){
         stringTodoItem = todoToString(todoItem);
-        const queryTodo = updateQuery('todos', 'id', todoColomns, stringTodoItem);
+        const queryTodo = updateQuery('todos', 'id',  stringTodoItem);
         const result =  await executeQuery(queryTodo, [id]);
         return result;
     }
 
     
 }
-const todoColomns = 'userId, title, completed';
 function todoToString(todo){
-    const stringTodo = `${todo.userId}, ${todo.title}, ${todo.completed}`;
+    const stringTodo = `userId = ${todo.userId}, title = ${todo.title}, completed = ${todo.completed}`;
     return stringTodo;
 
 }

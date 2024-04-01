@@ -17,7 +17,7 @@ export class PostsService {
 
     async addPost(postItem) {
         stringPostItem = postToString(postItem);
-        const queryPost = createQuery('posts', postColomns, stringPostItem);
+        const queryPost = createQuery('posts', stringPostItem);
         const result =  await executeQuery(queryPost);
         return result;
 
@@ -31,16 +31,20 @@ export class PostsService {
 
     async updatePost(postItem){
         stringPostItem = postToString(postItem);
-        const queryPost = updateQuery('posts', 'id', postColomns, stringPostItem);
+        const queryPost = updateQuery('posts', 'id', stringPostItem);
         const result =  await executeQuery(queryPost, [id]);
         return result;
     }
 
+    async getPostsComments(id){
+        const queryPost = getByIdQuery('comments', 'id');
+        const result =  await executeQuery(queryPost, [id]);
+        return result;
+    }
     
 }
-const postColomns = 'userId, title, body';
-function postToString(post){
-    const stringPost = `${post.userId}, ${post.title}, ${post.body}`;
-    return stringPost;
 
+function postToString(post){
+    const stringPost = `userId = ${post.userId}, title = ${post.title}, body = ${post.body}`;
+    return stringPost;
 }
