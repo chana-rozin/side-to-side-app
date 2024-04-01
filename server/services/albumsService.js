@@ -11,7 +11,13 @@ export class AlbumsService {
     }
 
     async getAlbumById(id) {
-        const queryAlbum = getByIdQuery("albums");
+        const queryAlbum = getByIdQuery("albums", "id");
+        const result =  await executeQuery(queryAlbum, [id]);
+        return result;
+    }
+
+    async getAlbumsPhotos(id) {
+        const queryAlbum = getByIdQuery("photos", "albumId");
         const result =  await executeQuery(queryAlbum, [id]);
         return result;
     }
@@ -25,9 +31,8 @@ export class AlbumsService {
     }
 
     async updateAlbum(AlbumItem) {
-        const columns = "userId title";
-        const values = albumToString(AlbumItem);
-        const queryAlbum = updateQuery("albums","id", columns, values);
+        const columns = `userId = ${AlbumItem.userId} title = ${AlbumItem.title}`;
+        const queryAlbum = updateQuery("albums","id", columns);
         const result =  await executeQuery(queryAlbum);
         return result;
     }

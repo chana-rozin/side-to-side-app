@@ -11,7 +11,7 @@ export class CommentsService {
     }
 
     async getCommentById(id) {
-        const queryComment = getByIdQuery("comments");
+        const queryComment = getByIdQuery("comments", "id");
         const result =  await executeQuery(queryComment, [id]);
         return result;
     }
@@ -25,9 +25,8 @@ export class CommentsService {
     }
 
     async updateComment(commentItem) {
-        const columns = "postId name email body";
-        const values = commentToString(commentItem);
-        const queryComment = updateQuery("comments","postId", columns, values);
+        const columns = `postId = ${commentItem.postId} name = ${commentItem.name} email = ${commentItem.email} body = ${commentItem.body}`;
+        const queryComment = updateQuery("comments","postId", columns);
         const result =  await executeQuery(queryComment);
         return result;
     }

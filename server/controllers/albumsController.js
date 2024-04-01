@@ -7,7 +7,7 @@ export class albumsController {
         try {
 
             const albumsService = new AlbumsService();
-            const resultItems = await albumsService.getAlbumsPhotos()
+            const resultItems = await albumsService.getAlbumsPhotos(req.params.id)
             return res.status(200).json(resultItems);
         }
         catch (ex) {
