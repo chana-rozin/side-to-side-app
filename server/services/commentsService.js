@@ -18,9 +18,9 @@ export class CommentsService {
 
     async addComment(commentItem) {
         const columns = "postId, name, email, body";
-        const values = commentToString(commentItem);
+        const values = "?,?,?,?";
         const queryComment = createQuery("comments", columns, values);
-        const result =  await executeQuery(queryComment);
+        const result =  await executeQuery(queryComment, [commentItem.postId,commentItem.name,commentItem.email,commentItem.body]);
         return result;
     }
 
@@ -39,6 +39,3 @@ export class CommentsService {
 
 }
 
-function commentToString(commentItem){
-    return `${commentItem.postId}, ${commentItem.name}, ${commentItem.email}, ${commentItem.body}`
-}
