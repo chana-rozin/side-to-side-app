@@ -1,5 +1,5 @@
-import { LoginService } from "../services/loginService";
-const loginService = new LoginService;
+import { LoginService } from "../services/loginService.js";
+const loginService = new LoginService();
 
 export class LoginController{
     

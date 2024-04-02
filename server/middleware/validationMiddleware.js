@@ -1,4 +1,4 @@
-import { validationResult } from 'express-validator';
+import {body, validationResult } from 'express-validator';
 
 const validateUserData = [
     body('name').isLength({ max: 45 }).withMessage('Name must be at most 45 characters'),
@@ -22,7 +22,7 @@ const validatePostData = [
 
 const validateTodoData = [
     body('title').isLength({ max: 45 }).withMessage('Title must be at most 45 characters'),
-    body('completed').isBoolean().withMessage('Body must be at most 280 characters')
+    body('completed').isBoolean().withMessage('Completed nust be boolean')
 ];
 
 
