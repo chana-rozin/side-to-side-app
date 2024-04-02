@@ -45,7 +45,7 @@ export class UsersService {
         const queryPost = deleteQuery("posts", "userId");
         await executeQuery(queryPost,[id]);
         const queryComment = deleteQuery("comments", "email");
-        await executeQuery(queryPost,[user.email]);
+        await executeQuery(queryPost,[user[0].email]);
         return result;
     }
 
