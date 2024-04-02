@@ -16,6 +16,6 @@ app.use("/posts", postsRouter);
 app.use("/comments", commentsRouter);
 app.use("/albums", albumsRouter);
 app.use("/photos", photosRouter);
-app.post("/login", loginRouter)
+app.use("/login", loginRouter)
 
 app.listen(process.env.PORT, () => console.log(`listening on port: ${process.env.PORT}`));
