@@ -42,8 +42,8 @@ export class AlbumsService {
     async deleteAlbum(id) {
         const queryAlbum = deleteQuery("albums", "id");
         await executeQuery(queryAlbum, [id]);
-        const queryPhoto = deleteQuery("photos", "albumId");
-        await executeQuery(queryPhoto, [id]);
+        const queryPhotos = deleteQuery("photos", "albumId");
+        const result = await executeQuery(queryPhotos, [id]);
         return result;
     }
 

@@ -26,14 +26,22 @@ export class UsersService {
         const user = await executeQuery(getByIdQuery("users","id"), [id]);
         const result = await executeQuery(softDeleteQuery('users', 'id'), [id]);
         await executeQuery(deleteQuery("todos", "userId"),[id]);
-        const userAlbums = await executeQuery(getByIdQuery("albums", "userId"),[id]);
-        userAlbums.forEach(async el=>await executeQuery(deleteQuery("photos", "albumId"),[el.id]))
-        await executeQuery(deleteQuery("albums", "userId"),[id]);
-        const userPosts = await executeQuery(getByIdQuery("posts", "userId"),[id]);
-        userPosts.forEach(async el=>await executeQuery(deleteQuery("comments", "postId"),[el.id]))
-        await executeQuery(deleteQuery("posts", "userId"),[id]);
+        await this.deleteUsersAlbums(user[0]);
+        await this.deleteUsersPosts(user[0]);
         await executeQuery(deleteQuery("comments", "email"),[user[0].email]);
         return result;
+    }
+
+    async deleteUsersAlbums(user){
+        const userAlbums = await executeQuery(getByIdQuery("albums", "userId"),[id]);
+        userAlbums.forEach(async el => await executeQuery(deleteQuery("photos", "albumId"),[el.id]));
+        await executeQuery(deleteQuery("albums", "userId"),[user.id]);
+    }
+
+    async deleteUsersPosts(user){
+        const userPosts = await executeQuery(getByIdQuery("posts", "userId"),[id]);
+        userPosts.forEach(async el => await executeQuery(deleteQuery("comments", "postId"),[el.id]));
+        await executeQuery(deleteQuery("posts", "userId"),[user.id]);
     }
 
     async updateUser(userItem, id){

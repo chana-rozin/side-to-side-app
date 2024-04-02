@@ -26,7 +26,7 @@ export class PostsService {
         const queryPost = deleteQuery('posts', 'id');
         await executeQuery(queryPost, [id]);
         const queryComments = deleteQuery('posts', 'id');
-        const result = await executeQuery(queryPost, [id]);
+        const result = await executeQuery(queryComments, [id]);
         return result;
     }
 
