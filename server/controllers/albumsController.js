@@ -31,7 +31,7 @@ export class AlbumsController {
         }
     }
 
-    async getAlbumById(req, res) {
+    async getAlbumById(req, res, next) {
         try {
             const resultItem = await albumsService.getAlbumById(req.params.id);
             res.status(200).json(resultItem);
@@ -59,7 +59,7 @@ export class AlbumsController {
     }
 
 
-    async deleteAlbum(req, res) {
+    async deleteAlbum(req, res, next) {
         try {
             console.log("albums");
             console.log(req.params.id);
@@ -74,7 +74,7 @@ export class AlbumsController {
         }
     }
 
-    async updateAlbum(req, res) {
+    async updateAlbum(req, res, next) {
         try {
             console.log("albums");
             console.log(req.params.id);

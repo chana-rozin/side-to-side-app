@@ -18,7 +18,7 @@ export class PhotosController {
         }
     }
 
-    async getPhotoById(req, res) {
+    async getPhotoById(req, res, next) {
         try {
             const resultItem = await photosService.getPhotoById(req.params.id);
             res.status(200).json(resultItem);
@@ -32,7 +32,7 @@ export class PhotosController {
     }
 
 
-    async addPhoto(req, res) {
+    async addPhoto(req, res, next) {
         try {
             const result = await photosService.addPhoto(req.body);
             res.status(201).json({insertId: result.insertId});
@@ -46,7 +46,7 @@ export class PhotosController {
     }
 
 
-    async deletePhoto(req, res) {
+    async deletePhoto(req, res,next) {
         try {
             console.log("Photo");
             console.log(req.params.id);
@@ -61,7 +61,7 @@ export class PhotosController {
         }
     }
 
-    async updatePhoto(req, res) {
+    async updatePhoto(req, res, next) {
         try {
             console.log("Photo");
             console.log(req.params.id);
