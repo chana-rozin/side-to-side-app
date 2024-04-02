@@ -1,12 +1,12 @@
 
 
 import { PhotosService } from '../services/photosService.js'
+
+const photosService = new PhotosService();
 export class PhotosController {
 
     async getPhotos(req, res, next) {
         try {
-
-            const photosService = new PhotosService();
             const resultItems = await photosService.getPhotos()
             return res.status(200).json(resultItems);
         }
@@ -20,7 +20,6 @@ export class PhotosController {
 
     async getPhotoById(req, res) {
         try {
-            const photosService = new PhotosService();
             const resultItem = await photosService.getPhotoById(req.params.id);
             res.status(200).json(resultItem);
         }
@@ -35,9 +34,8 @@ export class PhotosController {
 
     async addPhoto(req, res) {
         try {
-            const photosService = new PhotosService();
-             await photosService.addPhoto(req.body);
-            res.status(201).json(req.body);
+            const result = await photosService.addPhoto(req.body);
+            res.status(201).json({insertId: result.insertId});
         }
         catch (ex) {
             const err = {}
@@ -52,6 +50,7 @@ export class PhotosController {
         try {
             console.log("Photo");
             console.log(req.params.id);
+            await photosService.deletePhoto(req.params.id);
             res.status(204).send();
         }
         catch (ex) {
