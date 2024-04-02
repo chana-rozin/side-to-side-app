@@ -15,6 +15,18 @@ const validatePostData = [
     
 ];
 
+// const validateAlbumData = [
+    
+// ];
+
+const validateTodoData = [
+    
+];
+
+const validateCommentData = [
+    
+];
+
 function validate(validationRules) {
     return (req, res, next) => {
         validationRules(req, res, next);
