@@ -47,8 +47,8 @@ export class AlbumsController {
 
     async addAlbum(req, res) {
         try {
-             await albumsService.addAlbum(req.body);
-            res.status(200).json({ status: 200 });
+            await albumsService.addAlbum(req.body);
+            res.status(201).json(req.body);
         }
         catch (ex) {
             const err = {}
@@ -63,6 +63,7 @@ export class AlbumsController {
         try {
             console.log("albums");
             console.log(req.params.id);
+            await albumsService.deleteAlbum(req.params.id)
             res.status(200).json({ status: 200, data: req.params.id });
         }
         catch (ex) {
@@ -78,7 +79,8 @@ export class AlbumsController {
             console.log("albums");
             console.log(req.params.id);
             console.log(req.body);
-            res.status(200).json({ status: 200, data: req.params.id });
+            await albumsService.updateAlbum(req.body, req.params.id);
+            res.status(200).json(req.body);
         }
         catch (ex) {
             const err = {}
