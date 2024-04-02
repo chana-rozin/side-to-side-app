@@ -64,7 +64,7 @@ export class AlbumsController {
             console.log("albums");
             console.log(req.params.id);
             await albumsService.deleteAlbum(req.params.id)
-            res.status(200).json({ status: 200, data: req.params.id });
+            res.status(204).send();
         }
         catch (ex) {
             const err = {}

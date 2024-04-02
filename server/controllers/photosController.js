@@ -22,7 +22,7 @@ export class PhotosController {
         try {
             const photosService = new PhotosService();
             const resultItem = await photosService.getPhotoById(req.params.id);
-            res.status(200).json({ status: 200, data: resultItem });
+            res.status(200).json(resultItem);
         }
         catch (ex) {
             const err = {}
@@ -37,7 +37,7 @@ export class PhotosController {
         try {
             const photosService = new PhotosService();
              await photosService.addPhoto(req.body);
-            res.status(200).json({ status: 200 });
+            res.status(201).json(req.body);
         }
         catch (ex) {
             const err = {}
@@ -52,7 +52,7 @@ export class PhotosController {
         try {
             console.log("Photo");
             console.log(req.params.id);
-            res.status(200).json({ status: 200, data: req.params.id });
+            res.status(204).send();
         }
         catch (ex) {
             const err = {}
@@ -67,7 +67,7 @@ export class PhotosController {
             console.log("Photo");
             console.log(req.params.id);
             console.log(req.body);
-            res.status(200).json({ status: 200, data: req.params.id });
+            res.status(200).json(req.body);
         }
         catch (ex) {
             const err = {}
