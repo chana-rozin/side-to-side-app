@@ -1,4 +1,5 @@
 import { LoginService } from "../services/loginService";
+import jwt from 'jsonwebtoken';
 const loginService = new LoginService;
 
 export class LoginController{
@@ -8,7 +9,8 @@ export class LoginController{
         try {
             const user = await loginService.login(username, password);
             if (user) {
-                res.status(200).json({ message: 'Login successful', user });
+                const token = jwt.sign({ userId: user.id }, process.env.JWT_SECRET, { expiresIn: '1h' });
+                res.status(200).json({ message: 'Login successful', token });
             } else {
                 res.status(401).json({ message: 'Invalid username or password' });
             }
