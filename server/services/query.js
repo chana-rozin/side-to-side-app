@@ -11,8 +11,12 @@ function getQuery(table_name) {
     return query
 }
 
-function deleteQuery(table_name,column_name) {
+function deleteUserQuery(table_name,column_name){
     const query = `UPDATE ${table_name} SET is_deleted = true WHERE ${column_name} = ? `;
+}
+
+function deleteQuery(table_name,column_name) {
+    const query = ` DELETE FROM ${table_name} WHERE ${column_name} = ? `;
     return query
 }
 
