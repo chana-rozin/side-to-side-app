@@ -9,9 +9,9 @@ const postscontroller = new PostsController();
 
 postsRouter.get("/:id", postscontroller.getPostById);
 postsRouter.get("/", postscontroller.getPosts);
-postsRouter.post("/",validate(validatePostData), postscontroller.addPost);
+postsRouter.post("/",validatePostData,(req,res,next)=>validate(req,res,next), postscontroller.addPost);
 postsRouter.delete("/:id", postscontroller.deletePost);
-postsRouter.put("/:id",validate(validatePostData), postscontroller.updatePost);
+postsRouter.put("/:id",validatePostData,(req,res,next)=>validate(req,res,next), postscontroller.updatePost);
 postsRouter.get("/:id/comments", postscontroller.getPostsComments);
 
 export default

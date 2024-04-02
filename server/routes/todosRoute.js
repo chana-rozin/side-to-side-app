@@ -8,9 +8,9 @@ const todoscontroller = new TodosController();
 
 todosRouter.get("/:id", todoscontroller.getTodoById);
 todosRouter.get("/", todoscontroller.getTodos);
-todosRouter.post("/",validate(validateTodoData), todoscontroller.addTodo);
+todosRouter.post("/",validateTodoData,(req,res,next)=>validate(req,res,next), todoscontroller.addTodo);
 todosRouter.delete("/:id", todoscontroller.deleteTodo);
-todosRouter.put("/:id",validate(validateTodoData), todoscontroller.updateTodo);
+todosRouter.put("/:id",validateTodoData,(req,res,next)=>validate(req,res,next), todoscontroller.updateTodo);
 
 
 export default

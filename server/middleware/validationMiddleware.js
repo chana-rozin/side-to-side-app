@@ -32,16 +32,13 @@ const validateCommentData = [
     body('body').isLength({ max: 280 }).withMessage('Body must be at most 280 characters')
 ];
 
-
-function validate(validationRules) {
-    return (req, res, next) => {
-        validationRules(req, res, next);
-        const errors = validationResult(req);
-        if (!errors.isEmpty()) {
-            return res.status(400).json({ errors: errors.array() });
-        }
-        next();
-    };
+function validate(req, res, next) {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(400).json({ errors: errors.array() });
+    }
+    next();
 }
+
 
 export { validateUserData, validateTodoData, validatePostData, validateCommentData,validate };

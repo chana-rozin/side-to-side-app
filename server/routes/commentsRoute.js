@@ -8,10 +8,10 @@ const commentsRouter = express.Router();
 const commentscontroller = new CommentsController()
 
 commentsRouter.get("/:id", commentscontroller.getCommentById)
-commentsRouter.get("/", commentscontroller.getComment)
-commentsRouter.post("/",validate(validateCommentData), commentscontroller.addComment)
+commentsRouter.get("/", commentscontroller.getComments)
+commentsRouter.post("/",validateCommentData,(req,res,next)=>validate(req,res,next), commentscontroller.addComment)
 commentsRouter.delete("/:id", commentscontroller.deleteComment)
-commentsRouter.put("/:id",validate(validateCommentData), commentscontroller.updateComment)
+commentsRouter.put("/:id",validateCommentData,(req,res,next)=>validate(req,res,next), commentscontroller.updateComment)
 
 export default
     commentsRouter
