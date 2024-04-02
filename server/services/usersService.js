@@ -1,16 +1,16 @@
 import { executeQuery } from './db.js';
-import {getByIdQuery, getQuery, deleteQuery, updateQuery, createQuery } from './query.js'
+import {getByIdQuery, getQuery, deleteQuery, updateQuery, createQuery, softDeleteQuery } from './query.js'
 
 export class UsersService {
 
     async getUsers() {
-        const queryUser = getQuery('users');
+        const queryUser = getQuery('users',true);
         const result = await executeQuery(queryUser);
         return result;
     }
 
     async getUserById(id) {
-        const queryUser = getByIdQuery('users', 'id');
+        const queryUser = getByIdQuery('users', 'id', true);
         const result =  await executeQuery(queryUser, [id]);
         return result;
     }
@@ -23,13 +23,14 @@ export class UsersService {
     }
 
     async deleteUser(id){
-        const queryUser = deleteUserQuery('users', 'id');
+        const queryUser = softDeleteQuery('users', 'id');
         const result = await executeQuery(queryUser, [id]);
+        
         return result;
     }
 
-    async updateUser(userItem){
-        const queryUser = updateQuery('users', 'id', usersColumns);
+    async updateUser(userItem, id){
+        const queryUser = updateQuery('users', 'id', usersColumns,, true);
         const result =  await executeQuery(queryUser, [userItem.name, userItem.username, userItem.email, userItem.address, userItem.phone, id]);
         return result;
     }

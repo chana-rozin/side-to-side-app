@@ -48,8 +48,8 @@ export class UsersController {
         try {
             console.log("users");
             console.log(req.params.id);
-            await usersService.deleteUser(req.body, req.params.id);
-            res.status(204);
+            await usersService.deleteUser(req.params.id);
+            res.status(204).send();
         }
         catch (ex) {
             const err = {}
@@ -65,7 +65,7 @@ export class UsersController {
             console.log(req.params.id);
             console.log(req.body);
             await usersService.updateUser(req.body, req.params.id);
-            res.status(204).json().send();
+            res.status(204).send();
         }
         catch (ex) {
             const err = {}
@@ -116,8 +116,5 @@ export class UsersController {
             next(err)
         }
     }
-
-
-
 
 }
