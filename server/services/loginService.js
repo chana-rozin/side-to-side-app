@@ -17,7 +17,7 @@ export class LoginService{
     //     }
     // };
 
-    async loginService(username, password){
+    async login(username, password){
         try {
             const [user] = await executeQuery(getByIdQuery('access', 'username'), [username]);
             if (user && await bcrypt.compare(password, user.psw)) {
