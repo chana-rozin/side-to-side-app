@@ -1,10 +1,10 @@
 import { TodosService } from '../services/todosService.js'
-export class TodosController {
+const todosService = new TodosService();
 
+export class TodosController {
+    
     async getTodos(req, res, next) {
         try {
-
-            const todosService = new TodosService();
             const resultItems = await todosService.getTodos()
             return res.status(200).json(resultItems);
         }
@@ -18,7 +18,6 @@ export class TodosController {
 
     async getTodoById(req, res) {
         try {
-            const todosService = new TodosService();
             const resultItem = await todosService.getTodoById(req.params.id);
             res.status(200).json({ status: 200, data: resultItem });
         }
@@ -33,9 +32,8 @@ export class TodosController {
 
     async addTodo(req, res) {
         try {
-            const todosService = new TodosService();
-             await todosService.addTodo(req.body);
-            res.status(200).json({ status: 200 });
+            const result = await todosService.addTodo(req.body);
+            res.status(201).json({ status: 201 ,insertId: result.insertId});
         }
         catch (ex) {
             const err = {}
@@ -50,6 +48,7 @@ export class TodosController {
         try {
             console.log("todos");
             console.log(req.params.id);
+            await todosService.deleteTodo(req.body, req.params.id)
             res.status(200).json({ status: 200, data: req.params.id });
         }
         catch (ex) {
@@ -65,6 +64,7 @@ export class TodosController {
             console.log("todos");
             console.log(req.params.id);
             console.log(req.body);
+            await todosService.updateTodo(req.body, req.params.id)
             res.status(200).json({ status: 200, data: req.params.id });
         }
         catch (ex) {

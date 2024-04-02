@@ -1,10 +1,11 @@
 import { PostsService } from '../services/postsService.js'
+
+const postsService = new PostsService();
+
 export class PostsController {
 
     async getPosts(req, res, next) {
         try {
-
-            const postsService = new PostsService();
             const resultItems = await postsService.getPosts()
             return res.status(200).json(resultItems);
         }
@@ -18,7 +19,6 @@ export class PostsController {
 
     async getPostById(req, res) {
         try {
-            const postsService = new PostsService();
             const resultItem = await postsService.getPostById(req.params.id);
             res.status(200).json({ status: 200, data: resultItem });
         }
@@ -33,9 +33,8 @@ export class PostsController {
 
     async addPost(req, res) {
         try {
-            const postsService = new PostsService();
-             await postsService.addPost(req.body);
-            res.status(200).json({ status: 200 });
+            const result = await postsService.addPost(req.body);
+            res.status(201).json({ status: 201 ,insertId: result.insertId});
         }
         catch (ex) {
             const err = {}
@@ -50,6 +49,7 @@ export class PostsController {
         try {
             console.log("posts");
             console.log(req.params.id);
+            await postsService.deletePost(req.body, req.params.id);
             res.status(200).json({ status: 200, data: req.params.id });
         }
         catch (ex) {
@@ -65,6 +65,7 @@ export class PostsController {
             console.log("posts");
             console.log(req.params.id);
             console.log(req.body);
+            await postsService.updatePost(req.body, req.params.id);
             res.status(200).json({ status: 200, data: req.params.id });
         }
         catch (ex) {
@@ -77,8 +78,6 @@ export class PostsController {
 
     async getPostsComments(req, res, next){
         try {
-
-            const postsService = new PostsService();
             const resultItems = await postsService.getPostsComments()
             return res.status(200).json(resultItems);
         }

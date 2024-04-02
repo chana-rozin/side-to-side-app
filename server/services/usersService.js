@@ -23,7 +23,7 @@ export class UsersService {
     }
 
     async deleteUser(id){
-        const queryUser = deleteQuery('users', 'id');
+        const queryUser = deleteUserQuery('users', 'id');
         const result = await executeQuery(queryUser, [id]);
         return result;
     }
