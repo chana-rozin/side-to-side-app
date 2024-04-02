@@ -8,10 +8,8 @@ export class LoginController{
         try {
             const user = await loginService(username, password);
             if (user) {
-                // User authenticated successfully
                 res.status(200).json({ message: 'Login successful', user });
             } else {
-                // Invalid credentials
                 res.status(401).json({ message: 'Invalid username or password' });
             }
         } catch (error) {
