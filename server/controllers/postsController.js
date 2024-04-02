@@ -66,7 +66,7 @@ export class PostsController {
             console.log(req.params.id);
             console.log(req.body);
             await postsService.updatePost(req.body, req.params.id);
-            res.status(200).json({ data: req.params.id });
+            res.status(204).json().send();
         }
         catch (ex) {
             const err = {}
