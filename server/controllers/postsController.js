@@ -17,7 +17,7 @@ export class PostsController {
         }
     }
 
-    async getPostById(req, res) {
+    async getPostById(req, res, next) {
         try {
             const resultItem = await postsService.getPostById(req.params.id);
             res.status(200).json({ data: resultItem });
@@ -31,7 +31,7 @@ export class PostsController {
     }
 
 
-    async addPost(req, res) {
+    async addPost(req, res, next) {
         try {
             const result = await postsService.addPost(req.body);
             res.status(201).json({insertId: result.insertId});
@@ -45,7 +45,7 @@ export class PostsController {
     }
 
 
-    async deletePost(req, res) {
+    async deletePost(req, res, next) {
         try {
             console.log("posts");
             console.log(req.params.id);
@@ -60,7 +60,7 @@ export class PostsController {
         }
     }
 
-    async updatePost(req, res) {
+    async updatePost(req, res, next) {
         try {
             console.log("posts");
             console.log(req.params.id);

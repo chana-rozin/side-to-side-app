@@ -15,7 +15,7 @@ export class UsersController {
         }
     }
 
-    async getUserById(req, res) {
+    async getUserById(req, res, next) {
         try {
             
             const resultItem = await usersService.getUserById(req.params.id);
@@ -30,7 +30,7 @@ export class UsersController {
     }
 
 
-    async addUser(req, res) {
+    async addUser(req, res, next) {
         try {
             const result = await usersService.addUser(req.body);
             res.status(201).json({insertId: result.insertId});
@@ -44,7 +44,7 @@ export class UsersController {
     }
 
 
-    async deleteUser(req, res) {
+    async deleteUser(req, res, next) {
         try {
             console.log("users");
             console.log(req.params.id);
@@ -59,7 +59,7 @@ export class UsersController {
         }
     }
 
-    async updateUser(req, res) {
+    async updateUser(req, res, next) {
         try {
             console.log("users");
             console.log(req.params.id);
