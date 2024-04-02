@@ -16,7 +16,7 @@ export class TodosService {
     }
 
     async addTodo(todoItem) {
-        const queryTodo = createQuery('todos', tososColumns);
+        const queryTodo = createQuery('todos', "userId,title,completed", "?,?,?,?");
         const result =  await executeQuery(queryTodo, [todoItem.userId,todoItem.title,todoItem.completed]);
         return result;
 

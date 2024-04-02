@@ -16,7 +16,7 @@ export class PostsService {
     }
 
     async addPost(postItem) {
-        const queryPost = createQuery('posts', postsColumns);
+        const queryPost = createQuery('posts', "userId,title,body", "?,?,?");
         const result =  await executeQuery(queryPost, [postItem.userId,postItem.title,postItem.body]);
         return result;
 

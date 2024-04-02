@@ -7,6 +7,7 @@ export class AlbumsService {
 
     async getAlbums() {
         const queryAlbum = getQuery("albums");
+        console.log(queryAlbum)
         const result = await executeQuery(queryAlbum);
         return result;
     }

@@ -16,7 +16,7 @@ export class UsersService {
     }
 
     async addUser(userItem) {
-        const queryUser = createQuery('users', usersColumns);
+        const queryUser = createQuery('users', "name, username, email, address, phone", "?,?,?,?,?");
         const result =  await executeQuery(queryUser, [userItem.name, userItem.username, userItem.email, userItem.address, userItem.phone]);
         return result;
 
