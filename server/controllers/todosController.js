@@ -16,7 +16,7 @@ export class TodosController {
         }
     }
 
-    async getTodoById(req, res) {
+    async getTodoById(req, res, next) {
         try {
             const resultItem = await todosService.getTodoById(req.params.id);
             res.status(200).json({ status: 200, data: resultItem });
@@ -30,7 +30,7 @@ export class TodosController {
     }
 
 
-    async addTodo(req, res) {
+    async addTodo(req, res, next) {
         try {
             const result = await todosService.addTodo(req.body);
             res.status(201).json({insertId: result.insertId});
@@ -44,7 +44,7 @@ export class TodosController {
     }
 
 
-    async deleteTodo(req, res) {
+    async deleteTodo(req, res, next) {
         try {
             console.log("todos");
             console.log(req.params.id);
@@ -59,7 +59,7 @@ export class TodosController {
         }
     }
 
-    async updateTodo(req, res) {
+    async updateTodo(req, res, next) {
         try {
             console.log("todos");
             console.log(req.params.id);
