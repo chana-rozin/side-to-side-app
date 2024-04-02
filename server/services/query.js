@@ -21,7 +21,7 @@ function updateQuery(table_name, column_name, columns) {
 }
 
 function createQuery(table_name, columns , values) {
-    const query = `INSERT INTO ${table_name} SET (${columns}) VALUES (${values})`;
+    const query = `INSERT INTO ${table_name} (${columns}) VALUES (${values})`;
     return query
 }
 

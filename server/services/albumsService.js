@@ -23,11 +23,11 @@ export class AlbumsService {
         return result;
     }
 
-    async addAlbum(AlbumItem) {
+    async addAlbum(albumItem) {
         const columns = "userId, title";
-        const values = albumToString(AlbumItem);
+        const values = "?,?";
         const queryAlbum = createQuery("albums", columns, values);
-        const result =  await executeQuery(queryAlbum);
+        const result =  await executeQuery(queryAlbum, [albumItem.userId,albumItem.title]);
         return result;
     }
 
@@ -44,8 +44,4 @@ export class AlbumsService {
         return result;
     }
 
-}
-
-function albumToString(albumItem){
-    return `${albumItem.userId}, ${albumItem.title}`
 }

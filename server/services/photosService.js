@@ -18,9 +18,9 @@ export class PhotosService {
 
     async addPhoto(photoItem) {
         const columns = "albumId url title";
-        const values = photoToString(photoItem);
+        const values = "?,?,?";
         const queryPhoto = createQuery("photos", columns, values);
-        const result =  await executeQuery(queryPhoto);
+        const result =  await executeQuery(queryPhoto, [photoItem.albumId,photoItem.url,photoItem.title]);
         return result;
     }
 
@@ -39,6 +39,3 @@ export class PhotosService {
 
 }
 
-function photoToString(photoItem){
-    return `${photoItem.albumId}, ${photoItem.url}, ${photoItem.title}`
-}
