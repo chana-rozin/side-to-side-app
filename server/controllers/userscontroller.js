@@ -33,7 +33,7 @@ export class UsersController {
     async addUser(req, res) {
         try {
             const result = await usersService.addUser(req.body);
-            res.status(201).json({ status: 201 ,insertId: result.insertId});
+            res.status(201).json({insertId: result.insertId});
         }
         catch (ex) {
             const err = {}
@@ -49,7 +49,7 @@ export class UsersController {
             console.log("users");
             console.log(req.params.id);
             await usersService.deleteUser(req.body, req.params.id);
-            res.status(200).json({ status: 200, data: req.params.id });
+            res.status(204);
         }
         catch (ex) {
             const err = {}
@@ -65,7 +65,7 @@ export class UsersController {
             console.log(req.params.id);
             console.log(req.body);
             await usersService.updateUser(req.body, req.params.id);
-            res.status(200).json({ status: 200});
+            res.status(204).json().send();
         }
         catch (ex) {
             const err = {}

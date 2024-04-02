@@ -20,7 +20,7 @@ export class PostsController {
     async getPostById(req, res) {
         try {
             const resultItem = await postsService.getPostById(req.params.id);
-            res.status(200).json({ status: 200, data: resultItem });
+            res.status(200).json({ data: resultItem });
         }
         catch (ex) {
             const err = {}
@@ -34,7 +34,7 @@ export class PostsController {
     async addPost(req, res) {
         try {
             const result = await postsService.addPost(req.body);
-            res.status(201).json({ status: 201 ,insertId: result.insertId});
+            res.status(201).json({insertId: result.insertId});
         }
         catch (ex) {
             const err = {}
@@ -50,7 +50,7 @@ export class PostsController {
             console.log("posts");
             console.log(req.params.id);
             await postsService.deletePost(req.body, req.params.id);
-            res.status(200).json({ status: 200, data: req.params.id });
+            res.status(204);
         }
         catch (ex) {
             const err = {}
@@ -66,7 +66,7 @@ export class PostsController {
             console.log(req.params.id);
             console.log(req.body);
             await postsService.updatePost(req.body, req.params.id);
-            res.status(200).json({ status: 200, data: req.params.id });
+            res.status(204).json().send();
         }
         catch (ex) {
             const err = {}
