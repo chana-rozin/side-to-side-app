@@ -24,28 +24,15 @@ export class UsersService {
 
     async deleteUser(id){
         const user = await executeQuery(getByIdQuery("users","id"), [id]);
-        const queryUser = softDeleteQuery('users', 'id');
-        const result = await executeQuery(queryUser, [id]);
-        const queryTodo = deleteQuery("todos", "userId");
-        await executeQuery(queryTodo,[id]);
-        const userAlbumsQuery = getByIdQuery("albums", "userId");
-        const userAlbums = await executeQuery(userAlbumsQuery,[id]);
-        userAlbums.forEach(async el=>{
-            const queryPhoto = deleteQuery("photos", "albumId");
-            await executeQuery(queryPhoto,[el.id]);
-        })
-        const queryAlbum = deleteQuery("albums", "userId");
-        await executeQuery(queryAlbum,[id]);
-        const userPostQuery = getByIdQuery("posts", "userId");
-        const userPosts = await executeQuery(userPostQuery,[id]);
-        userPosts.forEach(async el=>{
-            const queryComment = deleteQuery("comments", "postId");
-            await executeQuery(queryComment,[el.id]);
-        })
-        const queryPost = deleteQuery("posts", "userId");
-        await executeQuery(queryPost,[id]);
-        const queryComment = deleteQuery("comments", "email");
-        await executeQuery(queryComment,[user[0].email]);
+        const result = await executeQuery(softDeleteQuery('users', 'id'), [id]);
+        await executeQuery(deleteQuery("todos", "userId"),[id]);
+        const userAlbums = await executeQuery(getByIdQuery("albums", "userId"),[id]);
+        userAlbums.forEach(async el=>await executeQuery(deleteQuery("photos", "albumId"),[el.id]))
+        await executeQuery(deleteQuery("albums", "userId"),[id]);
+        const userPosts = await executeQuery(getByIdQuery("posts", "userId"),[id]);
+        userPosts.forEach(async el=>await executeQuery(deleteQuery("comments", "postId"),[el.id]))
+        await executeQuery(deleteQuery("posts", "userId"),[id]);
+        await executeQuery(deleteQuery("comments", "email"),[user[0].email]);
         return result;
     }
 
