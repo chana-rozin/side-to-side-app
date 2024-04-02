@@ -12,7 +12,8 @@ const validateUserData = [
 ];
 
 const validatePostData = [
-    
+    body('title').isLength({ max: 45 }).withMessage('Title must be at most 45 characters'),
+    body('body').isLength({ max: 280 }).withMessage('Body must be at most 280 characters')
 ];
 
 // const validateAlbumData = [
@@ -20,12 +21,17 @@ const validatePostData = [
 // ];
 
 const validateTodoData = [
-    
+    body('title').isLength({ max: 45 }).withMessage('Title must be at most 45 characters'),
+    body('completed').isBoolean().withMessage('Body must be at most 280 characters')
 ];
 
+
 const validateCommentData = [
-    
+    body('name').isLength({ max: 45 }).withMessage('Name must be at most 45 characters'),
+    body('email').isEmail().withMessage('Invalid email'),
+    body('body').isLength({ max: 280 }).withMessage('Body must be at most 280 characters')
 ];
+
 
 function validate(validationRules) {
     return (req, res, next) => {
@@ -38,4 +44,4 @@ function validate(validationRules) {
     };
 }
 
-export { validateUserData, validate };
+export { validateUserData, validateTodoData, validatePostData, validateCommentData,validate };
