@@ -1,12 +1,13 @@
 
 
 import { CommentsService } from '../services/commentsService.js'
+
+const commentsService = new CommentsService();
 export class CommentsController {
 
     async getComments(req, res, next) {
         try {
 
-            const commentsService = new CommentsService();
             const resultItems = await commentsService.getComments()
             return res.status(200).json(resultItems);
         }
@@ -20,9 +21,8 @@ export class CommentsController {
 
     async getCommentById(req, res) {
         try {
-            const commentsService = new CommentsService();
             const resultItem = await commentsService.getCommentById(req.params.id);
-            res.status(200).json({ status: 200, data: resultItem });
+            res.status(200).json(resultItem);
         }
         catch (ex) {
             const err = {}
@@ -35,9 +35,8 @@ export class CommentsController {
 
     async addComment(req, res) {
         try {
-            const commentsService = new CommentsService();
-             await commentsService.addComment(req.body);
-            res.status(200).json({ status: 200 });
+            const result =  await commentsService.addComment(req.body);
+            res.status(201).json({insertId: result.insertId});
         }
         catch (ex) {
             const err = {}
@@ -52,7 +51,8 @@ export class CommentsController {
         try {
             console.log("comments");
             console.log(req.params.id);
-            res.status(200).json({ status: 200, data: req.params.id });
+            await commentsService.deleteComment(req.params.id)
+            res.status(204).send();
         }
         catch (ex) {
             const err = {}
@@ -67,7 +67,8 @@ export class CommentsController {
             console.log("comments");
             console.log(req.params.id);
             console.log(req.body);
-            res.status(200).json({ status: 200, data: req.params.id });
+            await CommentsService.updateComment(req.body, req.params.id)
+            res.status(204).send();
         }
         catch (ex) {
             const err = {}
