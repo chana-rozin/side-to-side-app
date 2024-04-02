@@ -6,6 +6,7 @@ function getByIdQuery(table_name,column_name) {
 
 
 function getQuery(table_name) {
+    console.log("get query")
     const query = `SELECT * FROM ${table_name} `;
     return query
 }

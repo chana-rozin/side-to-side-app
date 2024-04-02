@@ -1,10 +1,10 @@
-import mysql from 'mysql2/promise';
-import 'dotenv/config'
-//import config from '../config'
+import * as mysql from 'mysql2/promise';
+import 'dotenv/config';
 
-
-async function executeQuery(query, params){
+async function executeQuery(query, params) {
     let results;
+    console.log("execute");
+    console.log(process.env.DB_HOST)
     const connection = await mysql.createConnection({
         host: process.env.DB_HOST,
         user: process.env.DB_USER,
@@ -13,17 +13,17 @@ async function executeQuery(query, params){
     });
 
     try {
-        [results] = await connection.execute(query,params);
-
+        [results] = await connection.execute(query, params);
+        console.log("query executed successfully:", results);
     } catch (err) {
-        console.log(err);
-    }
-    finally {
-        connection.end();
+        console.log("error executing query:", err);
+    } finally {
+        await connection.end();
+        console.log("connection closed");
     }
     return results;
 }
 
-export{
+export {
     executeQuery
-}
+};
