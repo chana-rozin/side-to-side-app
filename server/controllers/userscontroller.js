@@ -49,7 +49,7 @@ export class UsersController {
             console.log("users");
             console.log(req.params.id);
             await usersService.deleteUser(req.body, req.params.id);
-            res.status(200).json({ status: 200, data: req.params.id });
+            res.status(204);
         }
         catch (ex) {
             const err = {}

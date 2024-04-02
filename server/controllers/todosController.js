@@ -49,7 +49,7 @@ export class TodosController {
             console.log("todos");
             console.log(req.params.id);
             await todosService.deleteTodo(req.body, req.params.id)
-            res.status(200).json({ status: 200, data: req.params.id });
+            res.status(204);
         }
         catch (ex) {
             const err = {}
