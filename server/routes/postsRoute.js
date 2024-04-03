@@ -9,10 +9,12 @@ const postscontroller = new PostsController();
 
 postsRouter.get("/:id", postscontroller.getPostById);
 postsRouter.get("/", postscontroller.getPosts);
-postsRouter.post("/",validatePostData,(req,res,next)=>validate(req,res,next), postscontroller.addPost);
-postsRouter.delete("/:id", postscontroller.deletePost);
-postsRouter.put("/:id",validatePostData,(req,res,next)=>validate(req,res,next), postscontroller.updatePost);
 postsRouter.get("/:id/comments", postscontroller.getPostsComments);
+postsRouter.delete("/:id", postscontroller.deletePost);
+postsRouter.use((req,res,next)=>authorizeUser(req.body,req.user,res,next,"userId","id"))
+postsRouter.post("/",validatePostData,(req,res,next)=>validate(req,res,next), postscontroller.addPost);
+postsRouter.put("/:id",validatePostData,(req,res,next)=>validate(req,res,next), postscontroller.updatePost);
+
 
 export default
     postsRouter
