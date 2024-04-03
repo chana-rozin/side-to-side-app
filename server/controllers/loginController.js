@@ -11,12 +11,13 @@ export class LoginController{
     async login(req, res, next){
         const { username, psw } = req.body;
         try {
-            const user = await loginService.login(username, psw);
+            let user = await loginService.login(username, psw);
             if (user) {
                 user = await loginService.getUserByUsername(username);
+                user=user[0];
                 console.log("token ssesion");
-                //need more datails of the user in order to store in the token, to use them in authorized
-                const token = jwt.sign({ username: user.username}, process.env.JWT_SECRET, { expiresIn: '1h' });
+                console.log("Token payload:", {id:user.id, username: user.username, email:user.email});
+                const token = jwt.sign({id:user.id, username: user.username, email:user.email}, process.env.JWT_SECRET, { expiresIn: '1h' });
                 res.status(200).json({ message: 'Login successful', token });
             } else {
                 res.status(401).json({ message: 'Invalid username or password' });
