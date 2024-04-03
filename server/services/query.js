@@ -1,7 +1,7 @@
 
-function getByIdQuery(table_name,column_name, isSoftDeleted = false) {
+function getByIdQuery(table_name,column_name, isSoftDeletedRecord = false) {
     let query;
-    if(isSoftDeleted)
+    if(isSoftDeletedRecord)
         query = `SELECT * FROM ${table_name} WHERE ${column_name} = ? AND is_deleted = false`;
     else
         query = `SELECT * FROM ${table_name} WHERE ${column_name} = ?`;

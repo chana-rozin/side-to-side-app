@@ -12,6 +12,7 @@ export class LoginController{
         try {
             const user = await loginService.login(username, psw);
             if (user) {
+                user = await loginService.getUserByUsername(username);
                 console.log("token ssesion");
                 const token = jwt.sign({ userId: user.id }, process.env.JWT_SECRET, { expiresIn: '1h' });
                 res.status(200).json({ message: 'Login successful', token });

@@ -32,5 +32,11 @@ export class LoginService{
             throw new Error('Error authenticating user');
         }
     };
+
+    async getUserByUsername(username){
+        const queryUser = getByIdQuery('users', 'username', true);
+        const result =  await executeQuery(queryUser, [username]);
+        return result;
+    }
     
 }
