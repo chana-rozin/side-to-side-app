@@ -1,22 +1,24 @@
 
-function getByIdQuery(table_name,column_name, isSoftDeletedRecord = false) {
+function getByIdQuery(table_name,condition, isSoftDeletedRecord = false) {
     let query;
     if(isSoftDeletedRecord)
-        query = `SELECT * FROM ${table_name} WHERE ${column_name} = ? AND is_deleted = false`;
+        query = `SELECT * FROM ${table_name} WHERE ${condition} AND is_deleted = false`;
     else
-        query = `SELECT * FROM ${table_name} WHERE ${column_name} = ?`;
+        query = `SELECT * FROM ${table_name} WHERE ${condition}`;
     return query
 }
 
 
-function getQuery(table_name, isSoftDeleted = false, limit = null, ) {
+
+function getQuery(table_name, isSoftDeleted = false, condition=true, limit = null) {
+
     console.log("get query")
     // let query;
     // const limitClause = limit ? `limit ${limit}` : '';
     if(isSoftDeleted)
-        query = `SELECT * FROM ${table_name} WHERE is_deleted = false`;
+        query = `SELECT * FROM ${table_name} WHERE ${condition} AND is_deleted = false`;
     else
-        query = `SELECT * FROM ${table_name} `;
+        query = `SELECT * FROM ${table_name} WHERE ${condition}`;
     return query
 }
 
@@ -25,17 +27,17 @@ function softDeleteQuery(table_name,column_name){
     return query;
 }
 
-function deleteQuery(table_name,column_name) {
-    const query = ` DELETE FROM ${table_name} WHERE ${column_name} = ? `;
+function deleteQuery(table_name,condition) {
+    const query = ` DELETE FROM ${table_name} WHERE ${condition} `;
     return query
 }
 
-function updateQuery(table_name, column_name, columns, isSoftDeleted = false) {
+function updateQuery(table_name, condition, isSoftDeleted = false) {
     let query;
     if(isSoftDeleted)
-        query = `UPDATE ${table_name} SET ${columns} WHERE ${column_name} = ? AND is_deleted = false`;
+        query = `UPDATE ${table_name} SET ${columns} WHERE ${condition} AND is_deleted = false`;
     else
-        query = `UPDATE ${table_name} SET ${columns} WHERE ${column_name} = ?`;
+        query = `UPDATE ${table_name} SET ${columns} WHERE ${condition}`;
     return query
 }
 
