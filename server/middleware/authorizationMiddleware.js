@@ -1,8 +1,9 @@
-const authorizeUser = (req, res, next, bodyField, userField) => {
-    const data = req.body[bodyField];
-    if (req.user[userField] !== data[bodyField]) {
+const authorizeUser = (data, user,res, next, dataField, userField) => {
+    console.log("start autorizeUser", user[userField],data[dataField])
+    if (user[userField] !== data[dataField]) {
         return res.status(403).json({ message: "Forbidden" });
     }
+    console.log("pass autorizeUser")
     next();
 };
 

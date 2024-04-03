@@ -10,9 +10,9 @@ const todoscontroller = new TodosController();
 
 todosRouter.get("/:id", todoscontroller.getTodoById);
 todosRouter.get("/", todoscontroller.getTodos);
-todosRouter.use((req,res,next)=>authorizeUser(req,res,next,"userId","id"))
-todosRouter.post("/",validateTodoData,(req,res,next)=>validate(req,res,next), todoscontroller.addTodo);
 todosRouter.delete("/:id", todoscontroller.deleteTodo);
+todosRouter.use((req,res,next)=>authorizeUser(req.body,req.user,res,next,"userId","id"))
+todosRouter.post("/",validateTodoData,(req,res,next)=>validate(req,res,next), todoscontroller.addTodo);
 todosRouter.put("/:id",validateTodoData,(req,res,next)=>validate(req,res,next), todoscontroller.updateTodo);
 
 
