@@ -9,9 +9,10 @@ function getByIdQuery(table_name,column_name, isSoftDeletedRecord = false) {
 }
 
 
-function getQuery(table_name, isSoftDeleted = false) {
+function getQuery(table_name, isSoftDeleted = false, limit = null, ) {
     console.log("get query")
-    let query;
+    // let query;
+    // const limitClause = limit ? `limit ${limit}` : '';
     if(isSoftDeleted)
         query = `SELECT * FROM ${table_name} WHERE is_deleted = false`;
     else

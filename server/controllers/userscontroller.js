@@ -4,6 +4,7 @@ export class UsersController {
 
     async getUsers(req, res, next) {
         try {
+            // const limit = res.query['limit']
             const resultItems = await usersService.getUsers()
             return res.status(200).json(resultItems);
         }
