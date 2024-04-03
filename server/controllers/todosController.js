@@ -19,7 +19,7 @@ export class TodosController {
     async getTodoById(req, res, next) {
         try {
             const resultItem = await todosService.getTodoById(req.params.id);
-            res.status(200).json({ status: 200, data: resultItem });
+            res.status(200).json(resultItem);
         }
         catch (ex) {
             const err = {}
@@ -49,7 +49,7 @@ export class TodosController {
             console.log("todos");
             console.log(req.params.id);
             await todosService.deleteTodo(req.body, req.params.id)
-            res.status(204);
+            res.status(204).send();
         }
         catch (ex) {
             const err = {}
