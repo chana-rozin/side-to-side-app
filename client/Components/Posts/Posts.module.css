@@ -1,0 +1,50 @@
+  .post{
+    border:1px solid rgb(150, 185, 225);
+    margin: 10px 0 10px 0;
+    
+    text-align: left;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    width: 60%;
+  }
+
+  .openBtn{
+    background:none;
+    border: 0;
+  }
+
+  .listContainer{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+  }
+  .ViewAllOrMineBtn{
+    margin-top: 3%;
+  }
+
+  .ViewAllOrMineBtn:hover{
+    background-color: rgb(176 183 228);
+  }
+
+  .postDetails{
+    margin-left: 8px;
+    font-family:cursive;
+  }
+  .closeBtn{
+    padding-left: 30px;
+    color: blue;
+  }
+  .contorl {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+}
+
+.contorl input {
+  height: 35px;
+  border-radius: 0.3;
+  vertical-align: middle;
+  margin: 10px;
+}

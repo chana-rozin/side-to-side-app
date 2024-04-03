@@ -1,0 +1,59 @@
+.todosWarpper {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+}
+
+.contorl {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.contorl input {
+    height: 35px;
+    border-radius: 0.3;
+    vertical-align: middle;
+    margin: 10px;
+}
+
+.filter {
+    height: 35px;
+    border-radius: 0.3;
+    margin: 10px;
+}
+
+.listContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    align-self: center;
+}
+
+.filter {
+    width: 300px;
+}
+
+.todo {
+    margin: 10px;
+    display: flex;
+    width: 100%;
+}
+
+.todo input[type=checkbox] {
+    width: 1.2rem;
+    height: 1.2rem;
+    border-radius: 50%;
+    vertical-align: middle;
+    border: 1px solid black;
+    appearance: none;
+    -webkit-appearance: none;
+    outline: none;
+    cursor: pointer;
+}
+
+.todo input[type=checkbox]:checked {
+    appearance: auto;
+    clip-path: circle(50% at 50% 50%);
+}
