@@ -1,6 +1,6 @@
 import { executeQuery } from './db.js';
 import { createQuery, getByIdQuery } from './query.js'
-import bcrypt from 'bcrypt';
+//import bcrypt from 'bcrypt';
 
 export class LoginService{
 
