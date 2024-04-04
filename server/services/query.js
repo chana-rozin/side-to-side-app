@@ -1,7 +1,7 @@
 
-function getByIdQuery(table_name,column_name, isSoftDeletedRecord = false) {
+function getByIdQuery(table_name, column_name, isSoftDeletedRecord = false) {
     let query;
-    if(isSoftDeletedRecord)
+    if (isSoftDeletedRecord)
         query = `SELECT * FROM ${table_name} WHERE ${column_name} = ? AND is_deleted = false`;
     else
         query = `SELECT * FROM ${table_name} WHERE ${column_name} = ?`;
@@ -17,30 +17,29 @@ function getByIdQuery(table_name,column_name, isSoftDeletedRecord = false) {
 //     else
 //         query = `SELECT * FROM ${table_name} `;
 //     return query
-    
+
 // }
 
 function getQuery(table_name, queryParams, isSoftDeleted = false) {
-    
+
     // Extract query parameters
     const { limit, page, fields, _start, _end } = queryParams;
     const params = []; // Array to store query parameters
 
     // Initialize the query with the basic SELECT statement
     let query;
-    if(isSoftDeleted)
+    if (isSoftDeleted)
         query = `SELECT ${fields || '*'} FROM ${table_name} WHERE is_deleted = false`;
     else
         query = `SELECT ${fields || '*'} FROM ${table_name}`;
     // Check for search parameters
-    
+
     const searchParams = {};
     for (const key in queryParams) {
         if (key !== 'limit' && key !== 'page' && key !== 'fields' && key !== '_start' && key !== '_end') {
             searchParams[key] = queryParams[key];
         }
     }
-    console.log(searchParams);
     if (Object.keys(searchParams).length > 0) {
         const searchConditions = []; // Array to store search conditions
         // Assuming searchParams is an object with key-value pairs representing field-value to search
@@ -50,7 +49,7 @@ function getQuery(table_name, queryParams, isSoftDeleted = false) {
         }
         // Join the search conditions with AND and add to the query
         if (searchConditions.length > 0) {
-            query +=`${isSoftDeleted?" AND ": " WHERE "}${searchConditions.join(' AND ')}`;
+            query += `${isSoftDeleted ? " AND " : " WHERE "}${searchConditions.join(' AND ')}`;
         }
     }
 
@@ -69,36 +68,35 @@ function getQuery(table_name, queryParams, isSoftDeleted = false) {
 
     // Add additional conditions based on other query parameters as needed
     console.log(query);
-    return {query: query, params: params};
+    return { query: query, params: params };
 }
 
 
-function softDeleteQuery(table_name,column_name){
+function softDeleteQuery(table_name, column_name) {
     const query = `UPDATE ${table_name} SET is_deleted = true WHERE ${column_name} = ? `;
     return query;
 }
 
-function deleteQuery(table_name,column_name) {
+function deleteQuery(table_name, column_name) {
     const query = ` DELETE FROM ${table_name} WHERE ${column_name} = ? `;
     return query
 }
 
 function updateQuery(table_name, column_name, columns, isSoftDeleted = false) {
     let query;
-    if(isSoftDeleted)
+    if (isSoftDeleted)
         query = `UPDATE ${table_name} SET ${columns} WHERE ${column_name} = ? AND is_deleted = false`;
     else
         query = `UPDATE ${table_name} SET ${columns} WHERE ${column_name} = ?`;
+
     return query
 }
 
-function createQuery(table_name, columns , values) {
+function createQuery(table_name, columns, values) {
     const query = `INSERT INTO ${table_name} (${columns}) VALUES (${values})`;
     return query
 }
 
-function addSearchParamsQuary(query, restrictions){
-    return `SELECT * FROM (${query}) WHERE ${restrictions} `;
-}
 
-export {getByIdQuery, getQuery, deleteQuery, updateQuery, createQuery, softDeleteQuery }
+
+export { getByIdQuery, getQuery, deleteQuery, updateQuery, createQuery, softDeleteQuery }

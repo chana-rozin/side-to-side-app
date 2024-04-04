@@ -10,8 +10,4 @@ const authorizeUser = (data, user,res, next) => {
     next();
 };
 
-const addUserCheckToReq = (req,next, column, value)=>{
-    req.query = {coulmn: value};
-    next();
-}
 export { authorizeUser};
