@@ -1,4 +1,4 @@
-import { executeQuery } from './db.js';
+import { executeQuery } from './executeQuery.js';
 import {getByIdQuery, getQuery, deleteQuery, updateQuery, createQuery } from './query.js'
 
 export class TodosService {

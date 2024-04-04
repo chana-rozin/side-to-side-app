@@ -1,4 +1,4 @@
-import { executeQuery } from './db.js';
+import { executeQuery } from './executeQuery.js';
 import { createQuery, getByIdQuery } from './query.js'
 //import bcrypt from 'bcrypt';
 
