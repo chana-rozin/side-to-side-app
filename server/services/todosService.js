@@ -3,34 +3,34 @@ import {getByIdQuery, getQuery, deleteQuery, updateQuery, createQuery } from './
 
 export class TodosService {
 
-    async getTodos(searchParams) {
+    async getTodos(searchParams, activeUserId) {
         const queryTodo = getQuery('todos', searchParams);
-        const result = await executeQuery(queryTodo.query, queryTodo.params);
+        const result = await executeQuery(queryTodo.query, queryTodo.params, activeUserId);
         return result;
     }
 
-    async getTodoById(id) {
+    async getTodoById(id, activeUserId) {
         const queryTodo = getByIdQuery('todos', 'id');
-        const result =  await executeQuery(queryTodo, [id]);
+        const result =  await executeQuery(queryTodo, [id], activeUserId);
         return result;
     }
 
-    async addTodo(todoItem) {
+    async addTodo(todoItem, activeUserId) {
         const queryTodo = createQuery('todos', "userId,title,completed", "?,?,?");
-        const result =  await executeQuery(queryTodo, [todoItem.userId,todoItem.title,todoItem.completed]);
+        const result =  await executeQuery(queryTodo, [todoItem.userId,todoItem.title,todoItem.completed], activeUserId);
         return result;
 
     }
 
-    async deleteTodo(id){
+    async deleteTodo(id, activeUserId){
         const queryTodo = deleteQuery('todos', 'id');
-        const result = await executeQuery(queryTodo, [id]);
+        const result = await executeQuery(queryTodo, [id], activeUserId);
         return result;
     }
 
-    async updateTodo(todoItem, id){
+    async updateTodo(todoItem, id, activeUserId){
         const queryTodo = updateQuery('todos', 'id',  tososColumns);
-        const result =  await executeQuery(queryTodo, [todoItem.userId,todoItem.title,todoItem.completed,id]);
+        const result =  await executeQuery(queryTodo, [todoItem.userId,todoItem.title,todoItem.completed,id], activeUserId);
         return result;
     }
 

@@ -1,7 +1,8 @@
 import * as mysql from 'mysql2/promise';
 import 'dotenv/config';
+import logAction from '../logging/logger';
 
-async function executeQuery(query, params) {
+async function executeQuery(query, params, userId) {
     let results;
     console.log(params);
     const connection = await mysql.createConnection({
@@ -10,10 +11,11 @@ async function executeQuery(query, params) {
         password: process.env.DB_PASSWORD,
         database: process.env.DB_NAME
     });
-
+    
     try {
         [results] = await connection.execute(query, params);
         console.log("query executed successfully:", results);
+        logAction(`Query executed: ${query}`);
     } catch (err) {
         console.log("error executing query:", err);
         throw `error executing query: ${err}`

@@ -5,7 +5,7 @@ export class TodosController {
     
     async getTodos(req, res, next) {
         try {
-            const resultItems = await todosService.getTodos(req.query)
+            const resultItems = await todosService.getTodos(req.query, req.user.userId)
             return res.status(200).json(resultItems);
         }
         catch (ex) {
@@ -18,7 +18,7 @@ export class TodosController {
 
     async getTodoById(req, res, next) {
         try {
-            const resultItem = await todosService.getTodoById(req.params.id);
+            const resultItem = await todosService.getTodoById(req.params.id, req.user.userId);
             res.status(200).json(resultItem);
         }
         catch (ex) {
@@ -32,7 +32,7 @@ export class TodosController {
 
     async addTodo(req, res, next) {
         try {
-            const result = await todosService.addTodo(req.body);
+            const result = await todosService.addTodo(req.body, req.user.userId);
             res.status(201).json({insertId: result.insertId});
         }
         catch (ex) {
@@ -48,7 +48,7 @@ export class TodosController {
         try {
             console.log("todos");
             console.log(req.params.id);
-            await todosService.deleteTodo(req.params.id)
+            await todosService.deleteTodo(req.params.id, req.user.userId)
             res.status(204).send();
         }
         catch (ex) {
@@ -64,7 +64,7 @@ export class TodosController {
             console.log("todos");
             console.log(req.params.id);
             console.log(req.body);
-            await todosService.updateTodo(req.body, req.params.id)
+            await todosService.updateTodo(req.body, req.params.id, req.user.userId)
             res.status(204).json().send();
         }
         catch (ex) {

@@ -17,12 +17,12 @@ export class LoginService{
     //     }
     // };
 
-    async login(username, password){
+    async login(username, password, activeUserId){
         try {
-            const [user] = await executeQuery(getByIdQuery('access', 'username'), [username]);
+            const [user] = await executeQuery(getByIdQuery('access', 'username'), [username], activeUserId);
             console.log(password, user.psw)
             //if (user && await bcrypt.compare(password, user.psw)) {
-            if (user && password===user.psw) {
+            if (user && password === user.psw) {
                 console.log("got user and compare psw")
                 delete user.psw; // Remove password from response
                 return user;
@@ -33,9 +33,9 @@ export class LoginService{
         }
     };
 
-    async getUserByUsername(username){
+    async getUserByUsername(username, activeUserId){
         const queryUser = getByIdQuery('users', 'username', true);
-        const result =  await executeQuery(queryUser, [username]);
+        const result =  await executeQuery(queryUser, [username], activeUserId);
         return result;
     }
     

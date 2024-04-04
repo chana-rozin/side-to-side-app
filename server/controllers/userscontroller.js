@@ -6,7 +6,7 @@ export class UsersController {
         try {
             // const limit = res.query['limit']
             console.log("user service: ", req.query);
-            const resultItems = await usersService.getUsers(req.query)
+            const resultItems = await usersService.getUsers(req.query, req.user.userId)
             return res.status(200).json(resultItems);
         }
         catch (ex) {
@@ -20,7 +20,7 @@ export class UsersController {
     async getUserById(req, res, next) {
         try {
             
-            const resultItem = await usersService.getUserById(req.params.id);
+            const resultItem = await usersService.getUserById(req.params.id, req.user.userId);
             res.status(200).json({ status: 200, data: resultItem });
         }
         catch (ex) {
@@ -34,7 +34,7 @@ export class UsersController {
 
     async addUser(req, res, next) {
         try {
-            const result = await usersService.addUser(req.body);
+            const result = await usersService.addUser(req.body, req.user.userId);
             res.status(201).json({insertId: result.insertId});
         }
         catch (ex) {
@@ -50,7 +50,7 @@ export class UsersController {
         try {
             console.log("users");
             console.log(req.params.id);
-            await usersService.deleteUser(req.params.id);
+            await usersService.deleteUser(req.params.id, req.user.userId);
             res.status(204).send();
         }
         catch (ex) {
@@ -66,7 +66,7 @@ export class UsersController {
             console.log("users");
             console.log(req.params.id);
             console.log(req.body);
-            await usersService.updateUser(req.body, req.params.id);
+            await usersService.updateUser(req.body, req.params.id, req.user.userId);
             res.status(204).send();
         }
         catch (ex) {
@@ -80,7 +80,7 @@ export class UsersController {
     async getUsersAlbums(req, res, next){
         try {
 
-            const resultItems = await usersService.getUsersAlbums(req.params.id)
+            const resultItems = await usersService.getUsersAlbums(req.params.id, req.user.userId)
             return res.status(200).json(resultItems);
         }
         catch (ex) {
@@ -94,7 +94,7 @@ export class UsersController {
     async getUsersPosts(req, res, next){
         try {
 
-            const resultItems = await usersService.getUsersPosts(req.params.id)
+            const resultItems = await usersService.getUsersPosts(req.params.id, req.user.userId)
             return res.status(200).json(resultItems);
         }
         catch (ex) {
@@ -108,7 +108,7 @@ export class UsersController {
     async getUsersTodos(req, res, next){
         try {
 
-            const resultItems = await usersService.getUsersTodos(req.params.id)
+            const resultItems = await usersService.getUsersTodos(req.params.id, req.user.userId)
             return res.status(200).json(resultItems);
         }
         catch (ex) {
