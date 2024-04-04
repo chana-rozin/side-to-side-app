@@ -22,8 +22,9 @@ const UpdateTodo = (props) => {
         'Authorization': Cookies.get('token')
       },
     })
-      .then(response => {
-        if (response.ok) {
+      .then(response => { 
+        switch (response.status) {
+        case 204: {
           setInEditing(-1);
           let updateData;
           setTodosArr(prev => {
@@ -32,10 +33,22 @@ const UpdateTodo = (props) => {
           }); -
             localStorage.setItem("todos", JSON.stringify({ user: currentUser.id, data: updateData }));
           updateCacheFrequencies("todo")
+          break;
         }
-      })
-      .catch(error =>
-        console.error(error))
+        case 403:{
+            alert(`Forbidden`)
+            break;
+        }
+        case 400:{
+            alert(`Invalid record`)
+            break;
+        }
+        default:{
+          alert('Fail to update')
+      }
+    }
+})
+.catch (error=> alert(`Fail to update: ${error.massage}`));
   }
 
   return (

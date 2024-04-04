@@ -22,18 +22,32 @@ const UpdatePost = (props) => {
       },
     })
       .then(response => {
-        if (response.ok) {
-          let updateData;
-          setInEditing(-1);
-          setPostsArr(prevArr => {
-            updateData = prevArr.map(el => el.id === post.id ? post : el);
-            return updateData;
-          });
-          localStorage.setItem("posts", JSON.stringify({ user: currentUser.id, data: updateData }))
-          updateCacheFrequencies("posts");
+        switch (response.status) {
+          case 204: {
+            let updateData;
+            setInEditing(-1);
+            setPostsArr(prevArr => {
+              updateData = prevArr.map(el => el.id === post.id ? post : el);
+              return updateData;
+            });
+            localStorage.setItem("posts", JSON.stringify({ user: currentUser.id, data: updateData }))
+            updateCacheFrequencies("posts");
+            break;
+          }
+          case 403: {
+            alert(`Forbidden`)
+            break;
+          }
+          case 400: {
+            alert(`Invalid record`)
+            break;
+          }
+          default:{
+            alert('Fail to update')
+        }
         }
       })
-      .catch(err => console.error(err))
+      .catch(error => alert(`Fail to update: ${error.massage}`));
   }
 
   return (

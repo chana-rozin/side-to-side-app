@@ -22,19 +22,32 @@ const UpdateComment = (props) => {
             },
         })
             .then(response => {
-                if (response.ok) {
-                    setInEditing(-1);
-                    let updateData;
-                    setCommentsArr(prev => {
-                        updateData = prev.map(el => (el.id === comment.id ? comment : el));
-                        return updateData;
-                    });
-                    localStorage.setItem("comments", JSON.stringify({ user: currentUser.id, data: updateData }));
-                    updateCacheFrequencies("comments")
+                switch (response.status) {
+                    case 204: {
+                        setInEditing(-1);
+                        let updateData;
+                        setCommentsArr(prev => {
+                            updateData = prev.map(el => (el.id === comment.id ? comment : el));
+                            return updateData;
+                        });
+                        localStorage.setItem("comments", JSON.stringify({ user: currentUser.id, data: updateData }));
+                        updateCacheFrequencies("comments")
+                        break;
+                    }
+                    case 403:{
+                        alert(`Forbidden`)
+                        break;
+                    }
+                    case 400:{
+                        alert(`Invalid record`)
+                        break;
+                    }
+                    default:{
+                        alert('Fail to update')
+                    }
                 }
-            })
-            .catch((error) =>
-                console.error(error));
+        })
+        .catch (error=> alert(`Fail to update: ${error.massage}`));
     }
 
     return (
