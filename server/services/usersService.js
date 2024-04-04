@@ -3,9 +3,9 @@ import {getByIdQuery, getQuery, deleteQuery, updateQuery, createQuery, softDelet
 
 export class UsersService {
 
-    async getUsers() {
-        const queryUser = getQuery('users',true);
-        const result = await executeQuery(queryUser);
+    async getUsers(queryParams) {
+        const queryUser = getQuery('users',queryParams, true);
+        const result = await executeQuery(queryUser.query, queryUser.params);
         return result;
     }
 

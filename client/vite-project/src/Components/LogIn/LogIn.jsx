@@ -24,7 +24,7 @@ const Login = () => {
                 'Content-type': 'application/json; charset=UTF-8',
             },
     })
-      .then((result) => result.json())
+      .then((result) => {console.log(result)})
       .then((json) =>{
         
         json.length ? navigateToHomePage(username) : setErrorMessage("Incorrect username or password")
