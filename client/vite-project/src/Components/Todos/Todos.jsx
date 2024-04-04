@@ -11,6 +11,8 @@ import style from "./Todos.module.css";
 import "../commonStyle/popupStyle.css"
 import { FiPlusCircle } from "react-icons/fi";
 import { cacheContext } from "../../App";
+import Cookies from 'js-cookie';
+
 
 const Todos = () => {
     const { currentUser } = useContext(userContext);
@@ -18,14 +20,20 @@ const Todos = () => {
     const { cacheGet, updateCacheFrequencies } = useContext(cacheContext);
     const [toShowTodosArr, setToShowTodosArr] = useState([]);
     const [filtersArr, setFiltersArr] = useState([]);
-    const [todosArr, setTodosArr] = useState(cacheGet("todos"));
+    const [todosArr, setTodosArr] = useState(cacheGet("todos") || []);
     const [sortBy, setSortBy] = useState("");
     const [isAdded, setIsAdded] = useState(false);
     const [inEditing, setInEditing] = useState(-1);
+    const [error, setError] = useState(false);
 
     useEffect(() => {
         const fetchTodos = async () =>
-            fetch(`http://localhost:3000/todos?userId=${userId}`)
+            fetch(`http://localhost:3000/todos?userId=${userId}`, {
+                method: 'GET',
+                headers: {
+                    'Authorization': Cookies.get('token')
+                },
+            })
                 .then(response => response.json())
                 .then(data => {
                     localStorage.setItem("todos", JSON.stringify({ user: userId, data: data }));
@@ -46,6 +54,9 @@ const Todos = () => {
     function deleteTodo(id) {
         fetch(`http://localhost:3000/todos/${id}`, {
             method: 'DELETE',
+            headers: {
+                'Authorization': Cookies.get('token')
+            },
         })
             .then(response => {
                 if (response.ok) {
@@ -117,7 +128,7 @@ const Todos = () => {
     ]
 
     return (
-        <>
+        <>{!error ?
             <div className={style.todosWarpper}>
                 <div className={style.contorl}>
                     <label> <b>  serach by: </b>
@@ -156,6 +167,7 @@ const Todos = () => {
                     ))}
                     <Outlet />
                 </div></div>
+            : <div>Error try again</div>}
         </>)
 }
 

@@ -1,11 +1,13 @@
-import { React, useContext} from "react";
+import { React, useContext } from "react";
 import { userContext } from "../../App";
 import { cacheContext } from "../../App";
+import Cookies from 'js-cookie';
+
 
 const AddTodo = (props) => {
-    const {setTodosArr, closePopUp} = props;
-    const {currentUser} = useContext(userContext);
-    const {updateCacheFrequencies } = useContext(cacheContext)
+    const { setTodosArr, closePopUp } = props;
+    const { currentUser } = useContext(userContext);
+    const { updateCacheFrequencies } = useContext(cacheContext)
     const userId = currentUser.id;
 
     const todo = {
@@ -19,23 +21,23 @@ const AddTodo = (props) => {
         event.preventDefault();
         todo.userId = userId;
         todo.title = event.target.title.value,
-        todo.completed = event.target.completed.checked,
-        todo.id = await getTodoId(),
-        addTodo();
+            addTodo();
         closePopUp();
     }
 
-   async function addTodo() {
+    async function addTodo() {
         await fetch("http://localhost:3000/todos", {
-                method: "POST",
-                body: JSON.stringify(todo),
-                headers: {
-                    "Content-type": "application/json; charset=UTF-8",
-                },
-            })
-            .then((respons) => {
+            method: "POST",
+            body: JSON.stringify(todo),
+            headers: {
+                "Content-type": "application/json; charset=UTF-8",
+                'Authorization': Cookies.get('token')
+            },
+        })
+            .then(async (respons) => {
                 if (respons.ok) {
-                    increaseTodoId();
+                    const resBody = await respons.json();
+                    todo.id = resBody.insertId
                     let updateData;
                     setTodosArr((prevArr) => {
                         updateData = [...prevArr, todo];
@@ -48,31 +50,13 @@ const AddTodo = (props) => {
             .catch((error) => console.error(error))
     }
 
-    function increaseTodoId(){
-        fetch("http://localhost:3000/config/1", {
-            method: "PATCH",
-            body: JSON.stringify({ todoId: Number(todo.id) + 1 }),
-            headers: {
-                "Content-type": "application/json; charset=UTF-8",
-            },
-        }).catch((err) => console.error(err));
-    }
-
-    async function getTodoId() {
-        const id = await fetch("http://localhost:3000/config/1")
-            .then((result) => result.json())
-            .then((json) => json.todoId.toString())
-            .catch(err => console.error(err));
-        return id;
-    }
-
     return (
         <>
             <div className="container">
                 <p>add your todo:</p>
                 <form onSubmit={handleAddBtn}>
                     <p>completed   <input type="checkbox" name="completed" /></p>
-                    <input placeholder="your todo title:" type="text" name="title"/>
+                    <input placeholder="your todo title:" type="text" name="title" />
                     <input type="submit" value="Add"></input>
                 </form>
             </div>

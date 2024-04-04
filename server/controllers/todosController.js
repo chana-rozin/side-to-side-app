@@ -5,7 +5,7 @@ export class TodosController {
     
     async getTodos(req, res, next) {
         try {
-            const resultItems = await todosService.getTodos()
+            const resultItems = await todosService.getTodos(req.query)
             return res.status(200).json(resultItems);
         }
         catch (ex) {
@@ -48,7 +48,7 @@ export class TodosController {
         try {
             console.log("todos");
             console.log(req.params.id);
-            await todosService.deleteTodo(req.body, req.params.id)
+            await todosService.deleteTodo(req.params.id)
             res.status(204).send();
         }
         catch (ex) {

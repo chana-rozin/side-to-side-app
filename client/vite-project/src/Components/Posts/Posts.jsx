@@ -21,11 +21,11 @@ const Posts = () => {
     userId = currentUser.id;
     const {cacheGet, updateCacheFrequencies} = useContext(cacheContext);
     const [filtersArr, setFiltersArr] = useState([{ "key": "userId", "value": userId.toString() }]);
-    const [selectedPostId, setSelectedPostId] = useState(postId ?? -1);
+    const [selectedPostId, setSelectedPostId] = useState(postId || -1);
     const [displayedData, setDisplayedData] = useState([]);
-    const [postsArr, setPostsArr] = useState(cacheGet("posts"));
-    const [displayMode, setDisplayMode] = useState(localStorage.getItem("displayMode"));
-    const [inEditing, setInEditing] = useState(postId??-1);
+    const [postsArr, setPostsArr] = useState(cacheGet("posts")||[]);
+    const [displayMode, setDisplayMode] = useState(localStorage.getItem("displayMode")||"publicPosts");
+    const [inEditing, setInEditing] = useState(-1);
     console.log(postsArr)
     if(selectedPostId!=-1)
     postId??setSelectedPostId(-1);
@@ -105,7 +105,7 @@ function viewPost(postId){
     setSelectedPostId(postId);
 }
 
-console.log('render', selectedPostId)
+console.log('render', displayMode)
 
     return (
         <>

@@ -2,6 +2,8 @@ import React from "react";
 import { useContext } from "react";
 import { cacheContext } from "../../App";
 import { userContext } from "../../App";
+import Cookies from 'js-cookie';
+
 
 const UpdateTodo = (props) => {
   const { todo, setInEditing, setTodosArr } = props;
@@ -13,13 +15,11 @@ const UpdateTodo = (props) => {
     todo.title = event.target.title.value;
     todo.completed = event.target.completed.checked;
     fetch(`http://localhost:3000/todos/${todo.id}`, {
-      method: 'PATCH',
-      body: JSON.stringify({
-        title: todo.title,
-        completed: todo.completed,
-      }),
+      method: 'PUT',
+      body: JSON.stringify(todo),
       headers: {
         "Content-type": "application/json; charset=UTF-8",
+        'Authorization': Cookies.get('token')
       },
     })
       .then(response => {
@@ -29,8 +29,8 @@ const UpdateTodo = (props) => {
           setTodosArr(prev => {
             updateData = prev.map((el) => (el.id === todo.id ? todo : el));
             return updateData
-          });-
-          localStorage.setItem("todos", JSON.stringify({ user: currentUser.id, data: updateData }));
+          }); -
+            localStorage.setItem("todos", JSON.stringify({ user: currentUser.id, data: updateData }));
           updateCacheFrequencies("todo")
         }
       })

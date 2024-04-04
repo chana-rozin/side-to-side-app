@@ -18,11 +18,12 @@ const Comments = () => {
     const [inEditingCommentId, setInEditingCommentId] = useState(-1);
     const { currentUser, setCurrentUser } = useContext(userContext);
     const { cacheGet, updateCacheFrequencies } = useContext(cacheContext);
-    const [commentsArr, setCommentsArr] = useState(cacheGet("comments")||[]);
+    const [commentsArr, setCommentsArr] = useState(cacheGet(`${postId}comments`)||[]);
 
 
     useEffect(() => {
         const fetchComments = async () => {
+            console.log("fetch comments")
             fetch(`http://localhost:3000/comments?postId=${postId}`, {
                 headers: {
                     'Authorization': Cookies.get('token')
@@ -30,8 +31,8 @@ const Comments = () => {
             })
                 .then(response => response.json())
                 .then(data => {
-                    localStorage.setItem("comments", JSON.stringify({ user: currentUser.id, data: data }));
-                    updateCacheFrequencies("comments");
+                    localStorage.setItem(`${postId}comments`, JSON.stringify({ user: currentUser.id, data: data }));
+                    updateCacheFrequencies(`${postId}comments`);
                     setCommentsArr(data);
                 })
                 .catch(error =>
@@ -52,8 +53,8 @@ const Comments = () => {
             .then(response => {
                 if (response.ok) {
                     const updataData = commentsArr.filter(comment => comment.id != id);
-                    localStorage.setItem("comments", JSON.stringify({ user: currentUser.id, data: updataData }))
-                    updateCacheFrequencies("comments");
+                    localStorage.setItem(`${postId}comments`, JSON.stringify({ user: currentUser.id, data: updataData }))
+                    updateCacheFrequencies(`${postId}comments`);
                     setCommentsArr(updataData);
                 }
             })
