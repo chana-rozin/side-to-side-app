@@ -11,7 +11,7 @@ async function executeQuery(query, params, userId) {
     [results] = await connection.execute(query, params);
     console.log("query executed successfully:", results);
     if (userId) {
-      await logAction(connection, `Query executed: ${query}`, userId);
+      await logAction(`Query executed: ${query}`, userId);
     }
   } catch (err) {
     console.log("error executing query:", err);

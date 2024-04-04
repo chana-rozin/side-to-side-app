@@ -11,9 +11,9 @@ export class LoginController{
     async login(req, res, next){
         const { username, psw } = req.body;
         try {
-            let user = await loginService.login(username, psw, req.user.userId);
+            let user = await loginService.login(username, psw);
             if (user) {
-                user = await loginService.getUserByUsername(username, req.user.userId);
+                user = await loginService.getUserByUsername(username, user.id);
                 user=user[0];
                 console.log("token ssesion");
                 console.log("Token payload:", {id:user.id, username: user.username, email:user.email});
