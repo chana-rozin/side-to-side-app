@@ -20,7 +20,7 @@ const Posts = () => {
     const { currentUser, setCurrentUser } = useContext(userContext);
     userId = currentUser.id;
     const {cacheGet, updateCacheFrequencies} = useContext(cacheContext);
-    const [filtersArr, setFiltersArr] = useState([{ "key": "userId", "value": userId.toString() }]);
+    const [filtersArr, setFiltersArr] = useState([]);
     const [selectedPostId, setSelectedPostId] = useState(postId || -1);
     const [displayedData, setDisplayedData] = useState([]);
     const [postsArr, setPostsArr] = useState(cacheGet("posts")||[]);
