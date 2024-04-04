@@ -1,5 +1,7 @@
 import React, { useContext } from "react";
 import { cacheContext, userContext } from "../../App";
+import Cookies from 'js-cookie';
+
 
 const UpdateComment = (props) => {
     const { comment, setInEditing, commentsArr, setCommentsArr } = props;
@@ -12,10 +14,11 @@ const UpdateComment = (props) => {
         const updatedBody = event.target.body.value;
 
         fetch(`http://localhost:3000/comments/${comment.id}`, {
-            method: 'PATCH',
-            body: JSON.stringify({ body: updatedBody }),
+            method: 'PUT',
+            body: JSON.stringify(updatedBody),
             headers: {
                 'Content-type': 'application/json; charset=UTF-8',
+                'Authorization': Cookies.get('token')
             },
         })
             .then(response => {

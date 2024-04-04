@@ -25,8 +25,8 @@ const Posts = () => {
     const [displayedData, setDisplayedData] = useState([]);
     const [postsArr, setPostsArr] = useState(cacheGet("posts"));
     const [displayMode, setDisplayMode] = useState(localStorage.getItem("displayMode"));
-    const [inEditing, setInEditing] = useState(-1);
-
+    const [inEditing, setInEditing] = useState(postId??-1);
+    console.log(postsArr)
     if(selectedPostId!=-1)
     postId??setSelectedPostId(-1);
 

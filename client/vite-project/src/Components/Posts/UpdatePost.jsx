@@ -2,24 +2,23 @@ import { useState, useContext } from "react";
 import { useLocation } from "react-router-dom";
 import { userContext } from "../../App";
 import { cacheContext } from "../../App";
+import Cookies from 'js-cookie';
 
 const UpdatePost = (props) => {
   const { post, setInEditing, setPostsArr } = props;
   const { cacheGet, updateCacheFrequencies } = useContext(cacheContext);
   const { currentUser, setCurrentUser } = useContext(userContext);
-  
+
   async function handlePostUpdate(event) {
     event.preventDefault();
     post.title = event.target.title.value;
     post.body = event.target.body.value;
     fetch(`http://localhost:3000/posts/${post.id}`, {
-      method: 'PATCH',
-      body: JSON.stringify({
-        title: post.title,
-        body: post.body,
-      }),
+      method: 'PUT',
+      body: JSON.stringify(post),
       headers: {
         "Content-type": "application/json; charset=UTF-8",
+        'Authorization': Cookies.get('token')
       },
     })
       .then(response => {

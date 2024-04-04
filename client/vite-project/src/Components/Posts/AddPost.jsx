@@ -1,6 +1,7 @@
 import React, { useContext} from "react";
 import { userContext } from "../../App";
 import { cacheContext } from "../../App";
+import Cookies from 'js-cookie';
 
 const AddPost = (props) => {
 
@@ -21,7 +22,7 @@ const AddPost = (props) => {
         post.userId = userId;
         post.title = event.target.title.value;
         post.body = event.target.body.value;
-        post.id = await getPostId();
+        //post.id = await getPostId();
         addPost();
         closePopUp();
     }
@@ -32,12 +33,16 @@ const AddPost = (props) => {
             body: JSON.stringify(post),
             headers: {
                 'Content-type': 'application/json; charset=UTF-8',
+                        'Authorization': Cookies.get('token'),
             },
         })
-        .then((response) => {
+        .then(async (response) => {
             if (response.ok) {
                 let updateData;
-                increasePostId();
+                //increasePostId();
+                const resBody = await response.json()
+                console.log(resBody.insertId)
+                post.id=resBody.insertId
                 setPostsArr(prevArr => {updateData = [...prevArr, post];
                 return updateData});
                 localStorage.setItem("posts", JSON.stringify({ user: currentUser.id, data: updateData }))

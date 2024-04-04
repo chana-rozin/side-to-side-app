@@ -49,7 +49,7 @@ export class PostsController {
         try {
             console.log("posts");
             console.log(req.params.id);
-            await postsService.deletePost(req.body, req.params.id);
+            await postsService.deletePost(req.params.id);
             res.status(204).send();
         }
         catch (ex) {

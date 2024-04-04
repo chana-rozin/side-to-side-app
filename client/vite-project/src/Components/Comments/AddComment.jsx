@@ -1,11 +1,12 @@
-import React, { useContext} from "react";
+import React, { useContext } from "react";
 import { userContext } from "../../App";
 import { cacheContext } from "../../App";
+import Cookies from 'js-cookie';
 
 const AddComment = (props) => {
-    const {postId, setCommentsArr, closePopUp} = props;
-    const {currentUser} = useContext(userContext);
-    const {updateCacheFrequencies } = useContext(cacheContext);
+    const { postId, setCommentsArr, closePopUp } = props;
+    const { currentUser } = useContext(userContext);
+    const { updateCacheFrequencies } = useContext(cacheContext);
 
     const comment = {
         postId: postId,
@@ -18,9 +19,9 @@ const AddComment = (props) => {
     async function handleAddBtn(event) {
         event.preventDefault();
         comment.name = event.target.name.value,
-        comment.body = event.target.body.value,
-        comment.id = await getCommentId(),
-        addComment();
+            comment.body = event.target.body.value,
+            //comment.id = await getCommentId(),
+            addComment();
         closePopUp();
     }
 
@@ -30,12 +31,15 @@ const AddComment = (props) => {
             body: JSON.stringify(comment),
             headers: {
                 'Content-type': 'application/json; charset=UTF-8',
+                'Authorization': Cookies.get('token')
             },
         })
-            .then((respons) => {
+            .then(async (respons) => {
                 if (respons.ok) {
-                    increaseCommentId();
+                    //increaseCommentId();
                     let updateData;
+                    const resBody = await respons.json();
+                    comment.id = resBody.insertId;
                     setCommentsArr((prevArr) => {
                         updateData = [...prevArr, comment];
                         return updateData;

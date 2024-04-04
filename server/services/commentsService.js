@@ -4,9 +4,9 @@ import {getByIdQuery, getQuery, deleteQuery, updateQuery, createQuery } from './
 
 export class CommentsService {
 
-    async getComments() {
-        const queryComment = getQuery("comments");
-        const result = await executeQuery(queryComment);
+    async getComments(searchParams) {
+        const queryComment = getQuery("comments", searchParams);
+        const result = await executeQuery(queryComment.query, queryComment.params);
         return result;
     }
 

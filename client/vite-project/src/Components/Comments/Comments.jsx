@@ -10,44 +10,54 @@ import { RiDeleteBin7Fill } from "react-icons/ri";
 import { MdOutlineEdit } from "react-icons/md";
 import style from "./Comments.module.css";
 import { cacheContext } from "../../App";
+import Cookies from 'js-cookie';
 
 const Comments = () => {
     const location = useLocation();
     const { postId } = location.state;
     const [inEditingCommentId, setInEditingCommentId] = useState(-1);
-    const {currentUser, setCurrentUser} = useContext(userContext);
-    const {cacheGet, updateCacheFrequencies} = useContext(cacheContext);
+    const { currentUser, setCurrentUser } = useContext(userContext);
+    const { cacheGet, updateCacheFrequencies } = useContext(cacheContext);
     const [commentsArr, setCommentsArr] = useState(cacheGet("comments"));
 
 
     useEffect(() => {
         const fetchComments = async () => {
-            fetch(`http://localhost:3000/comments?postId=${postId}`)
-            .then(response=> response.json())
-            .then(data=>
-                {localStorage.setItem("comments",JSON.stringify({user:currentUser.id,data:data}));
-                updateCacheFrequencies("comments");
-                setCommentsArr(data);})
-            .catch (error=>
-                console.error(error));
+            fetch(`http://localhost:3000/comments?postId=${postId}`, {
+                headers: {
+                    'Authorization': Cookies.get('token')
+                },
+            })
+                .then(response => response.json())
+                .then(data => {
+                    localStorage.setItem("comments", JSON.stringify({ user: currentUser.id, data: data }));
+                    updateCacheFrequencies("comments");
+                    setCommentsArr(data);
+                })
+                .catch(error =>
+                    console.error(error));
         };
-        if(!commentsArr.length)
-           fetchComments();
+        if (!commentsArr.length)
+            fetchComments();
     }, [postId]);
 
     function handleDeleteComment(id) {
         setCommentsArr((prevComments) => prevComments.filter((comment) => comment.id !== id));
         fetch(`http://localhost:3000/comments/${id}`, {
             method: "DELETE",
+            headers: {
+                'Authorization': Cookies.get('token')
+            },
         })
-        .then(response => 
-            {if(response.ok)
-                { const updataData=commentsArr.filter(comment => comment.id != id);
-                localStorage.setItem("comments", JSON.stringify({user:currentUser.id,data:updataData}))
-                updateCacheFrequencies("comments");
-                setCommentsArr(updataData);}
+            .then(response => {
+                if (response.ok) {
+                    const updataData = commentsArr.filter(comment => comment.id != id);
+                    localStorage.setItem("comments", JSON.stringify({ user: currentUser.id, data: updataData }))
+                    updateCacheFrequencies("comments");
+                    setCommentsArr(updataData);
+                }
             })
-        .catch((error) => console.error(error));
+            .catch((error) => console.error(error));
     }
 
     return (

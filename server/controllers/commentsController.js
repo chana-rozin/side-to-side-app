@@ -8,7 +8,7 @@ export class CommentsController {
     async getComments(req, res, next) {
         try {
 
-            const resultItems = await commentsService.getComments()
+            const resultItems = await commentsService.getComments(req.query)
             return res.status(200).json(resultItems);
         }
         catch (ex) {

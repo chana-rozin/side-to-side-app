@@ -18,7 +18,7 @@ const PostDetails = (props) => {
     const { post, postsArr, setPostsArr, inEditing, setInEditing, setSelectedPostId } = props;
     const { currentUser, setCurrentUser } = useContext(userContext);
     const userId = currentUser.id;
-
+ 
     function deletePost(id) {
         setPostsArr(prevArr => prevArr.filter(post => post.id != id));
 
