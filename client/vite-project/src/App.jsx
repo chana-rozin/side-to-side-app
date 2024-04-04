@@ -74,7 +74,7 @@ function App() {
                       <Route path=':albumId/photos' element={<Photos />} />
                     </Route>
                     <Route path='posts' element={<Posts />} >
-                      <Route path=':postId' />
+                      <Route index path=':postId' />
                       <Route path=':postId/comments' element={<Comments />} />
                     </Route>
                   </Route>
