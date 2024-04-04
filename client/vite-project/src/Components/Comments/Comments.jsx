@@ -18,7 +18,7 @@ const Comments = () => {
     const [inEditingCommentId, setInEditingCommentId] = useState(-1);
     const { currentUser, setCurrentUser } = useContext(userContext);
     const { cacheGet, updateCacheFrequencies } = useContext(cacheContext);
-    const [commentsArr, setCommentsArr] = useState(cacheGet("comments"));
+    const [commentsArr, setCommentsArr] = useState(cacheGet("comments")||[]);
 
 
     useEffect(() => {

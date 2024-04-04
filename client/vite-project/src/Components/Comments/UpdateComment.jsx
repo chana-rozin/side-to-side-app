@@ -11,11 +11,11 @@ const UpdateComment = (props) => {
     async function handleCommentUpdate(event) {
         event.preventDefault();
 
-        const updatedBody = event.target.body.value;
+        comment.body = event.target.body.value;
 
         fetch(`http://localhost:3000/comments/${comment.id}`, {
             method: 'PUT',
-            body: JSON.stringify(updatedBody),
+            body: JSON.stringify(comment),
             headers: {
                 'Content-type': 'application/json; charset=UTF-8',
                 'Authorization': Cookies.get('token')
@@ -26,7 +26,7 @@ const UpdateComment = (props) => {
                     setInEditing(-1);
                     let updateData;
                     setCommentsArr(prev => {
-                        updateData = prev.map(el => (el.id === comment.id ? { ...comment, body: updatedBody } : el));
+                        updateData = prev.map(el => (el.id === comment.id ? comment : el));
                         return updateData;
                     });
                     localStorage.setItem("comments", JSON.stringify({ user: currentUser.id, data: updateData }));

@@ -68,6 +68,7 @@ export class CommentsController {
             console.log(req.params.id);
             console.log(req.body);
             await commentsService.updateComment(req.body, req.params.id)
+            console.log("update successfuly")
             res.status(204).send();
         }
         catch (ex) {
