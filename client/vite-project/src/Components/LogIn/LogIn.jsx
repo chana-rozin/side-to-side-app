@@ -4,7 +4,8 @@ import { useState } from "react";
 import { userContext } from "../../App";
 import { Link, useNavigate } from "react-router-dom";
 import style from "./Login.module.css";
-import bcrypt from 'bcrypt'
+import Cookies from 'js-cookie';
+//import bcrypt from 'bcrypt'
 
 const Login = () => {
   const [errorMessage, setErrorMessage] = useState("");
@@ -15,8 +16,8 @@ const Login = () => {
     event.preventDefault();
     const username = event.target.username.value;
     const password = event.target.password.value;
-    const hashedPassword = await bcrypt.hash(password, 10);
-    console.log(hashedPassword);
+    //const hashedPassword = await bcrypt.hash(password, 10);
+    //console.log(hashedPassword);
     fetch(`http://localhost:3000/login`,{
             method: 'POST',
             body: JSON.stringify({username: username, psw: password}),
@@ -24,12 +25,19 @@ const Login = () => {
                 'Content-type': 'application/json; charset=UTF-8',
             },
     })
-      .then((result) => {console.log(result)})
-      .then((json) =>{
-        
-        json.length ? navigateToHomePage(username) : setErrorMessage("Incorrect username or password")
-      }
-      )
+      .then(async (response) =>{
+      console.log('response: ', response)    
+          if(response.ok){
+            const data = await response.json();
+            console.log('data: ', data)
+            Cookies.set('token', data.token, { expires: 3});
+            navigateToHomePage(username);
+          } 
+        else{setErrorMessage("Incorrect username or password")}
+    })
+      .then(console.log("something"))
+      
+     
       .catch((error) => setErrorMessage("ERROR. Please try again"));
   }
 
