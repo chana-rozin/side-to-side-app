@@ -4,17 +4,19 @@ import { useState } from "react";
 import { userContext } from "../../App";
 import { Link, useNavigate } from "react-router-dom";
 import style from "./Login.module.css";
+import bcrypt from 'bcrypt'
 
 const Login = () => {
   const [errorMessage, setErrorMessage] = useState("");
   const { currentUser, setCurrentUser } = useContext(userContext);
   const navigate = useNavigate();
 
-  function handleFormSubmit(event) {
+  async function handleFormSubmit(event) {
     event.preventDefault();
     const username = event.target.username.value;
     const password = event.target.password.value;
-
+    const hashedPassword = await bcrypt.hash(password, 10);
+    console.log(hashedPassword);
     fetch(`http://localhost:3000/login`,{
             method: 'POST',
             body: JSON.stringify({username: username, psw: password}),
@@ -23,14 +25,15 @@ const Login = () => {
             },
     })
       .then((result) => result.json())
-      .then((json) =>
-        json.length ? navigateToHomePage(json[0]) : setErrorMessage("Incorrect username or password")
+      .then((json) =>{
+        
+        json.length ? navigateToHomePage(username) : setErrorMessage("Incorrect username or password")
+      }
       )
       .catch((error) => setErrorMessage("ERROR. Please try again"));
   }
 
   function navigateToHomePage(userDetails) {
-    delete userDetails["website"];
     localStorage.setItem("currentUser", JSON.stringify(userDetails));
     navigate("/home");
     setCurrentUser(userDetails);
