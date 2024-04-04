@@ -13,12 +13,12 @@ import Cookies from 'js-cookie';
 
 const PostDetails = (props) => {
     const navigate = useNavigate()
-    const {cacheGet, updateCacheFrequencies} = useContext(cacheContext);
+    const { cacheGet, updateCacheFrequencies } = useContext(cacheContext);
     const href = location.pathname;
     const { post, postsArr, setPostsArr, inEditing, setInEditing, setSelectedPostId } = props;
     const { currentUser, setCurrentUser } = useContext(userContext);
     const userId = currentUser.id;
- 
+
     function deletePost(id) {
         setPostsArr(prevArr => prevArr.filter(post => post.id != id));
 
@@ -29,17 +29,27 @@ const PostDetails = (props) => {
             },
         })
             .then(response => {
-                if (response.ok) {
-                    if (href.endsWith("/comments"))
+                switch (response.status) {
+                    case 204: {
+                        if (href.endsWith("/comments"))
                         navigate(-1);
                     setSelectedPostId(-1);
-                    const updataData=postsArr.filter(post => post.id != id);
-                    localStorage.setItem("posts", JSON.stringify({user:currentUser.id,data:updataData}))
+                    const updataData = postsArr.filter(post => post.id != id);
+                    localStorage.setItem("posts", JSON.stringify({ user: currentUser.id, data: updataData }))
                     updateCacheFrequencies("posts");
                     setPostsArr(updataData);
+                    break;
+                    }
+                    case 403:{
+                        alert(`Forbidden`)
+                        break;
+                    }
+                    default:{
+                        alert('Fail to delete')
+                    }
                 }
-            })
-            .catch(error => console.error(error));
+        })
+        .catch (error=> alert(`Fail to delete: ${error.massage}`));
     }
 
     function closePost() {
@@ -52,8 +62,7 @@ const PostDetails = (props) => {
     }
 
     return (
-        <>
-            <div>
+        <><div>
                 {post.id != inEditing ?
                     <>
                         <span className={style.postDetails}>{post.id}. </span>

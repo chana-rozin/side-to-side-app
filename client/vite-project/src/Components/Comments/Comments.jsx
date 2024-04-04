@@ -18,7 +18,8 @@ const Comments = () => {
     const [inEditingCommentId, setInEditingCommentId] = useState(-1);
     const { currentUser, setCurrentUser } = useContext(userContext);
     const { cacheGet, updateCacheFrequencies } = useContext(cacheContext);
-    const [commentsArr, setCommentsArr] = useState(cacheGet(`${postId}comments`)||[]);
+    const [commentsArr, setCommentsArr] = useState(cacheGet(`${postId}comments`) || []);
+    const [error, setError] = useState(false)
 
 
     useEffect(() => {
@@ -29,15 +30,33 @@ const Comments = () => {
                     'Authorization': Cookies.get('token')
                 },
             })
-                .then(response => response.json())
-                .then(data => {
-                    localStorage.setItem(`${postId}comments`, JSON.stringify({ user: currentUser.id, data: data }));
-                    updateCacheFrequencies(`${postId}comments`);
-                    setCommentsArr(data);
+                .then(async respons => {
+                    switch (respons.status) {
+                        case 200: {
+                            const data = await respons.json()
+                            localStorage.setItem(`${postId}comments`, JSON.stringify({ user: currentUser.id, data: data }));
+                            updateCacheFrequencies(`${postId}comments`);
+                            setCommentsArr(data);
+                            break;
+                        }
+                        case 403: {
+                            alert(`Forbidden`)
+                            break;
+                        }
+                        case 400: {
+                            alert(`Invalid record`)
+                            break;
+                        }
+                        default: {
+                            setError(true);
+                        }
+                    }
                 })
-                .catch(error =>
-                    console.error(error));
-        };
+                .catch((error) => {
+                    console.error(error)
+                    setError(true)
+                })
+        }
         if (!commentsArr.length)
             fetchComments();
     }, [postId]);
@@ -51,19 +70,30 @@ const Comments = () => {
             },
         })
             .then(response => {
-                if (response.ok) {
-                    const updataData = commentsArr.filter(comment => comment.id != id);
-                    localStorage.setItem(`${postId}comments`, JSON.stringify({ user: currentUser.id, data: updataData }))
-                    updateCacheFrequencies(`${postId}comments`);
-                    setCommentsArr(updataData);
+                switch (response.status) {
+                    case 201: {
+                        const updataData = commentsArr.filter(comment => comment.id != id);
+                        localStorage.setItem(`${postId}comments`, JSON.stringify({ user: currentUser.id, data: updataData }))
+                        updateCacheFrequencies(`${postId}comments`);
+                        setCommentsArr(updataData);
+                    }
+                    case 403: {
+                        alert(`Forbidden`)
+                    }
+                    default: {
+                        alert('Fail to load data')
+                    }
                 }
             })
-            .catch((error) => console.error(error));
+            .catch((error) => {
+                setError(true)
+                console.error(error)
+            });
     }
 
     return (
-        <>
-            <div>
+        <>{error ? <p>Server Error</p>
+            : <><div>
                 <Popup trigger=
                     {<div className="addBtn" >add comment<FiPlusCircle /></div>}
                     position="center center"
@@ -78,34 +108,34 @@ const Comments = () => {
 
                 </Popup>
             </div>
-            <div>
-                {commentsArr.map((comment) => (
-                    <div key={comment.id} className={style.commentDetails}>
-                        {inEditingCommentId !== comment.id ? (
-                            <>
-                                <div>
-                                    <b>{comment.name}</b>
-                                </div>
-                                <div>{comment.body}</div>
-                                {comment.email === currentUser.email && (
-                                    <>
-                                        <span onClick={() => handleDeleteComment(comment.id)}>
-                                            <RiDeleteBin7Fill />
-                                        </span>
-                                        <span onClick={() => setInEditingCommentId(comment.id)}>
-                                            <MdOutlineEdit />
-                                        </span>
-                                    </>
-                                )}
-                            </>
-                        ) : (
-                            <UpdateComment comment={comment} setInEditing={setInEditingCommentId} commentsAr={commentsArr} setCommentsArr={setCommentsArr} />
-                        )}
-                    </div>
+                <div>
+                    {commentsArr.map((comment) => (
+                        <div key={comment.id} className={style.commentDetails}>
+                            {inEditingCommentId !== comment.id ? (
+                                <>
+                                    <div>
+                                        <b>{comment.name}</b>
+                                    </div>
+                                    <div>{comment.body}</div>
+                                    {comment.email === currentUser.email && (
+                                        <>
+                                            <span onClick={() => handleDeleteComment(comment.id)}>
+                                                <RiDeleteBin7Fill />
+                                            </span>
+                                            <span onClick={() => setInEditingCommentId(comment.id)}>
+                                                <MdOutlineEdit />
+                                            </span>
+                                        </>
+                                    )}
+                                </>
+                            ) : (
+                                <UpdateComment comment={comment} setInEditing={setInEditingCommentId} commentsAr={commentsArr} setCommentsArr={setCommentsArr} />
+                            )}
+                        </div>
 
-                ))}
-            </div>
-        </>
+                    ))}
+                </div></>
+        }</>
     );
 };
 

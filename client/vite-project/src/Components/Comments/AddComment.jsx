@@ -20,7 +20,6 @@ const AddComment = (props) => {
         event.preventDefault();
         comment.name = event.target.name.value,
             comment.body = event.target.body.value,
-            //comment.id = await getCommentId(),
             addComment();
         closePopUp();
     }
@@ -35,39 +34,33 @@ const AddComment = (props) => {
             },
         })
             .then(async (respons) => {
-                if (respons.ok) {
-                    //increaseCommentId();
-                    let updateData;
-                    const resBody = await respons.json();
-                    comment.id = resBody.insertId;
-                    setCommentsArr((prevArr) => {
-                        updateData = [...prevArr, comment];
-                        return updateData;
-                    });
-                    localStorage.setItem("comments", JSON.stringify({ user: currentUser.id, data: updateData }))
-                    updateCacheFrequencies("comments");
+                switch (respons.status) {
+                    case 201: {
+                        let updateData;
+                        const resBody = await respons.json();
+                        comment.id = resBody.insertId;
+                        setCommentsArr((prevArr) => {
+                            updateData = [...prevArr, comment];
+                            return updateData;
+                        });
+                        localStorage.setItem("comments", JSON.stringify({ user: currentUser.id, data: updateData }))
+                        updateCacheFrequencies("comments");
+                        break;
+                    }
+                    case 403:{
+                        alert(`Forbidden`)
+                        break;
+                    }
+                    case 400:{
+                        alert(`Invalid record`)
+                        break;
+                    }
+                    default:{
+                        alert('Fail to add')
+                    }
                 }
-            })
-            .catch((error) => console.error(error));
-    }
-
-    function increaseCommentId() {
-        fetch("http://localhost:3000/config/1", {
-            method: 'PATCH',
-            body: JSON.stringify({ commentId: Number(comment.id) + 1 }),
-            headers: {
-                "Content-type": "application/json; charset=UTF-8",
-            },
         })
-            .catch((err) => console.error(err));
-    }
-
-    async function getCommentId() {
-        const id = await fetch("http://localhost:3000/config/1")
-            .then((result) => result.json())
-            .then((json) => json.commentId.toString())
-            .catch(err => console.error(err));
-        return id;
+        .catch (error=> alert(`Fail to add: ${error.massage}`));
     }
 
     return (

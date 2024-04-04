@@ -8,6 +8,7 @@ const AddTodo = (props) => {
     const { setTodosArr, closePopUp } = props;
     const { currentUser } = useContext(userContext);
     const { updateCacheFrequencies } = useContext(cacheContext)
+    const [error, setError] = useState(false)
     const userId = currentUser.id;
 
     const todo = {
@@ -35,31 +36,45 @@ const AddTodo = (props) => {
             },
         })
             .then(async (respons) => {
-                if (respons.ok) {
-                    const resBody = await respons.json();
-                    todo.id = resBody.insertId
-                    let updateData;
-                    setTodosArr((prevArr) => {
-                        updateData = [...prevArr, todo];
-                        return updateData;
-                    });
-                    localStorage.setItem("todos", JSON.stringify({ user: currentUser.id, data: updateData }))
-                    updateCacheFrequencies("todos");
+                switch (respons.status) {
+                    case 201: {
+                        const resBody = await respons.json();
+                        todo.id = resBody.insertId
+                        let updateData;
+                        setTodosArr((prevArr) => {
+                            updateData = [...prevArr, todo];
+                            return updateData;
+                        });
+                        localStorage.setItem("todos", JSON.stringify({ user: currentUser.id, data: updateData }))
+                        updateCacheFrequencies("todos");
+                        break;
+                    }
+                    case 403:{
+                        alert(`Forbidden`)
+                        break;
+                    }
+                    case 400:{
+                        alert(`Invalid record`)
+                        break;
+                    }
+                    default:{
+                        alert('Fail to add')
+                    }
                 }
-            })
-            .catch((error) => console.error(error))
+        })
+        .catch (error=> alert(`Fail to add: ${error.massage}`));
     }
 
     return (
-        <>
-            <div className="container">
+        <>{error ? <p>Server Error</p>
+            :<div className="container">
                 <p>add your todo:</p>
                 <form onSubmit={handleAddBtn}>
                     <p>completed   <input type="checkbox" name="completed" /></p>
                     <input placeholder="your todo title:" type="text" name="title" />
                     <input type="submit" value="Add"></input>
                 </form>
-            </div>
+            </div>}
         </>
     );
 };

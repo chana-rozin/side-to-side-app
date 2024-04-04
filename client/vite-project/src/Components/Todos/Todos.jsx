@@ -14,6 +14,7 @@ import { cacheContext } from "../../App";
 import Cookies from 'js-cookie';
 
 
+
 const Todos = () => {
     const { currentUser } = useContext(userContext);
     const userId = currentUser.id;
@@ -34,14 +35,28 @@ const Todos = () => {
                     'Authorization': Cookies.get('token')
                 },
             })
-                .then(response => response.json())
-                .then(data => {
-                    localStorage.setItem("todos", JSON.stringify({ user: userId, data: data }));
-                    updateCacheFrequencies("todos");
-                    setTodosArr(data);
+                .then(async response => {
+                    switch (response.status) {
+                        case 200: {
+                            const data = await response.json()
+                            localStorage.setItem("todos", JSON.stringify({ user: userId, data: data }));
+                            updateCacheFrequencies("todos");
+                            setTodosArr(data);
+                            break;
+                        }
+                        case 403: {
+                            alert(`Forbidden`)
+                            break;
+                        }
+                        default: {
+                            setError(true);
+                        }
+                    }
                 })
-                .catch(error =>
-                    console.error(error));
+                .catch(error => {
+                    setError(true);
+                    console.error(error)
+                });
         if (!todosArr.length)
             fetchTodos();
     }, []);
@@ -59,13 +74,22 @@ const Todos = () => {
             },
         })
             .then(response => {
-                if (response.ok) {
-                    const updataData = todosArr.filter(todo => todo.id != id);
-                    localStorage.setItem("todos", JSON.stringify({ user: currentUser.id, data: updataData }))
-                    updateCacheFrequencies("todos");
-                    setTodosArr(updataData);
+                switch (response.status) {
+                    case 204: {
+                        const updataData = todosArr.filter(todo => todo.id != id);
+                        localStorage.setItem("todos", JSON.stringify({ user: currentUser.id, data: updataData }))
+                        updateCacheFrequencies("todos");
+                        setTodosArr(updataData);
+                    }
+                    case 403: {
+                        alert(`Forbidden`)
+                    }
+                    default: {
+                        alert('Fail to delete')
+                    }
                 }
-            });
+            })
+            .catch(error => alert(`Fail to delete: ${error.massage}`));
     }
 
     function filterTodos(updateFilters) {
@@ -167,7 +191,7 @@ const Todos = () => {
                     ))}
                     <Outlet />
                 </div></div>
-            : <div>Error try again</div>}
+            : <div>Server Error</div>}
         </>)
 }
 
