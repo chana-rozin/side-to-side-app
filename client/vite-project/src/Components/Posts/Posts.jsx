@@ -11,6 +11,7 @@ import Popup from 'reactjs-popup';
 import { FiPlusCircle } from "react-icons/fi";
 import AddPost from './AddPost';
 import { cacheContext } from "../../App";
+import Cookies from 'js-cookie';
 
 
 const Posts = () => {
@@ -33,9 +34,14 @@ const Posts = () => {
 
     useEffect(() => {
         const fetchPosts = async () => 
-                await fetch(`http://localhost:3000/posts`)
+                await fetch(`http://localhost:3000/posts`,{
+                    method: 'GET',
+                    headers: {
+                        'Authorization': Cookies.get('token')
+                    },
+                })
                 .then(response=>response.json())
-                .then(jsonData=>{
+                .then(jsonData => {
                     setPostsArr(jsonData);
                     localStorage.setItem("posts",JSON.stringify({user:userId,data:jsonData}))
                     updateCacheFrequencies("posts");
@@ -94,9 +100,12 @@ function changeDisplayMode(){
 }
 
 function viewPost(postId){
-    navigate(postId);
+    console.log('post id: ', postId)
+    navigate(`${postId}`);
     setSelectedPostId(postId);
 }
+
+console.log('render', selectedPostId)
 
     return (
         <>
@@ -130,9 +139,10 @@ function viewPost(postId){
                     <div className={style.listContainer}>{displayedData.map(post => (
                         <div key={post.id} className={style.post}>
                             {selectedPostId !== post.id ? <>
+                            
                                 <span className={style.postDetails}>{post.id}. </span>
                                 <span className={style.postDetails}>{post.title}</span>
-                                <button className={style.openBtn}disabled={selectedPostId !== -1} onClick={() => viewPost(post.id)}><IoIosArrowBack /></button>
+                                <button className={style.openBtn}disabled={selectedPostId !== -1} onClick={() => {viewPost(post.id); console.log("details: ",post)}}><IoIosArrowBack /></button>
                             </>
                                 : <PostDetails post={post} postsArr={postsArr} setPostsArr={setPostsArr} inEditing={inEditing} setInEditing={setInEditing} setSelectedPostId={setSelectedPostId} />}
                         </div>

@@ -14,9 +14,11 @@ const Info = ()=>{
             <p>name: {currentUser.name}</p>
             <p>username: {currentUser.username}</p>
             <p>email: {currentUser.email}</p>
-            {/* <label><h4>address:</h4>
+            <label><h4>address:</h4>
             <p>street: {currentUser.address.street}</p>
-            </label> */}
+            <p>city: {currentUser.address.city}</p>
+            <p>zipcode: {currentUser.address.zipcode}</p>
+            </label>
             <p>phone: {currentUser.phone}</p>
          </div>
     </>)

@@ -3,9 +3,9 @@ import {getByIdQuery, getQuery, deleteQuery, updateQuery, createQuery } from './
 
 export class PostsService {
 
-    async getPosts() {
-        const queryPost = getQuery('posts');
-        const result = await executeQuery(queryPost);
+    async getPosts(queryParams) {
+        const queryPost = getQuery('posts', queryParams);
+        const result = await executeQuery(queryPost.query, queryPost.params);
         return result;
     }
 

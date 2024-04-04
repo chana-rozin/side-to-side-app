@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import { Link, Navigate, Outlet, useLocation, useNavigate } from "react-router-dom"
 import { userContext } from "../../App";
 import { useContext } from "react";
@@ -6,9 +7,12 @@ import { MdOutlineEdit } from "react-icons/md";
 import { IoIosArrowDown } from "react-icons/io";
 import UpdatePost from "./UpdatePost";
 import style from "./Posts.module.css"
+import Cookies from 'js-cookie';
+
 
 const PostDetails = (props) => {
     const navigate = useNavigate()
+    const {cacheGet, updateCacheFrequencies} = useContext(cacheContext);
     const href = location.pathname;
     const { post, postsArr, setPostsArr, inEditing, setInEditing, setSelectedPostId } = props;
     const { currentUser, setCurrentUser } = useContext(userContext);
@@ -19,6 +23,9 @@ const PostDetails = (props) => {
 
         fetch(`http://localhost:3000/posts/${id}`, {
             method: 'DELETE',
+            headers: {
+                'Authorization': Cookies.get('token')
+            },
         })
             .then(response => {
                 if (response.ok) {

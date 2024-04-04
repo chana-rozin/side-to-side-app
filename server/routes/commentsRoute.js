@@ -2,6 +2,7 @@
 import express from "express";
 import { CommentsController } from '../controllers/commentsController.js'
 import { validateCommentData, validate } from "../middleware/validationMiddleware.js";
+import {authorizeUser} from "../middleware/authorizationMiddleware.js";
 
 const commentsRouter = express.Router();
 

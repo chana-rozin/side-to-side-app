@@ -20,7 +20,7 @@ function getByIdQuery(table_name,column_name, isSoftDeletedRecord = false) {
     
 // }
 
-function getQuery(table_name,queryParams, isSoftDeleted = false) {
+function getQuery(table_name, queryParams, isSoftDeleted = false) {
     
     // Extract query parameters
     const { limit, page, fields, _start, _end } = queryParams;

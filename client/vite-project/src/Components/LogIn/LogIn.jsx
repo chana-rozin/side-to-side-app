@@ -16,8 +16,8 @@ const Login = () => {
     event.preventDefault();
     const username = event.target.username.value;
     const password = event.target.password.value;
-    //const hashedPassword = await bcrypt.hash(password, 10);
-    //console.log(hashedPassword);
+    // const hashedPassword = await bcrypt.hash(password, 10);
+    // console.log(hashedPassword);
     fetch(`http://localhost:3000/login`,{
             method: 'POST',
             body: JSON.stringify({username: username, psw: password}),
@@ -31,14 +31,26 @@ const Login = () => {
             const data = await response.json();
             console.log('data: ', data)
             Cookies.set('token', data.token, { expires: 3});
-            navigateToHomePage(username);
+            const userDetails = await getCurrentUser(username);
+            console.log('curr: ', userDetails)
+            navigateToHomePage(userDetails);
           } 
         else{setErrorMessage("Incorrect username or password")}
     })
-      .then(console.log("something"))
-      
-     
+      .then(console.log("something"))  
       .catch((error) => setErrorMessage("ERROR. Please try again"));
+  }
+
+  async function getCurrentUser(username){
+
+    const response = await fetch(`http://localhost:3000/users?username=${username}`,{
+            method: 'GET',
+            headers: {
+                'Authorization': Cookies.get('token')
+            },
+    }).then((result) => result.json())
+    .then((res) => res[0])
+   return response;
   }
 
   function navigateToHomePage(userDetails) {

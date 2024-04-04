@@ -1,6 +1,8 @@
 
 import express from "express";
 import { AlbumsController } from '../controllers/albumsController.js'
+import {authorizeUser} from "../middleware/authorizationMiddleware.js";
+
 const albumsRouter = express.Router();
 
 const albumscontroller = new AlbumsController()
