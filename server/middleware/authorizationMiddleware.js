@@ -10,4 +10,5 @@ const authorizeUser = (data, user,res, next) => {
     next();
 };
 
+
 export { authorizeUser};

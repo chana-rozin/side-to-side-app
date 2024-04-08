@@ -23,6 +23,7 @@ app.use(cors());
 app.use(express.json());
 
 // Routes
+
 app.use("/login", loginRouter);
 app.use("/register", registerRouter);
 app.use(authenticateToken);

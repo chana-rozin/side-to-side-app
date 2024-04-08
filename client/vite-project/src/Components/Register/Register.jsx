@@ -73,6 +73,7 @@ const Register = () => {
                     delete user["psw"]
                     const resBody = await respons.json();
                     Cookies.set('token', resBody.token, { expires: 3});
+                    user.id=resBody.insertId;
                     localStorage.setItem("currentUser", JSON.stringify(user));
                     setCurrentUser(user);
                     navigate("/home", { replace: true });
