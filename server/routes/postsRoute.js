@@ -12,7 +12,7 @@ postsRouter.get("/:id", postscontroller.getPostById);
 postsRouter.get("/", postscontroller.getPosts);
 postsRouter.get("/:id/comments", postscontroller.getPostsComments);
 postsRouter.delete("/:id", postscontroller.deletePost);
-postsRouter.use((req,res,next)=>authorizeUser(req.body.userId,req.user.id,res,next))
+postsRouter.use((req,res,next)=>{authorizeUser(req.body.userId,req.user.id,res); next()})
 postsRouter.post("/",validatePostData,(req,res,next)=>validate(req,res,next), postscontroller.addPost);
 postsRouter.put("/:id",validatePostData,(req,res,next)=>validate(req,res,next), postscontroller.updatePost);
 

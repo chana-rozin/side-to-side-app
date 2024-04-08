@@ -1,5 +1,6 @@
 import express from "express";
 import { UsersController } from '../controllers/userscontroller.js';
+import { UsersService } from "../services/usersService.js";
 import { validateUserData,validate  } from "../middleware/validationMiddleware.js";
 import { validationResult } from "express-validator";
 import { authorizeUser } from "../middleware/authorizationMiddleware.js";
@@ -14,6 +15,8 @@ usersRouter.post("/",validateUserData,(req, res, next)=>{
     if (!errors.isEmpty())
         return res.status(400).json({ errors: errors.array() });
     next();}, userscontroller.addUser);
+
+
 
 usersRouter.delete("/:id",async (req,res,next)=>{
     const data = await userscontroller.getUserById(req, res, next)
