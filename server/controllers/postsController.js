@@ -49,8 +49,8 @@ export class PostsController {
         try {
             console.log("posts");
             console.log(req.params.id);
-            await postsService.deletePost(req.params.id, req.user.userId);
-            res.status(204).send();
+            const response = await postsService.deletePost(req.params.id, req.user.userId);
+            res.status(response.affectedRows?204:404).send();
         }
         catch (ex) {
             const err = {}
@@ -65,8 +65,8 @@ export class PostsController {
             console.log("posts");
             console.log(req.params.id);
             console.log(req.body);
-            await postsService.updatePost(req.body, req.params.id, req.user.userId);
-            res.status(204).send();
+            const response = await postsService.updatePost(req.body, req.params.id, req.user.userId);
+            res.status(response.affectedRows?204:404).send();
         }
         catch (ex) {
             const err = {}

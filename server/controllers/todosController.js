@@ -48,8 +48,8 @@ export class TodosController {
         try {
             console.log("todos");
             console.log(req.params.id);
-            await todosService.deleteTodo(req.params.id, req.user.userId)
-            res.status(204).send();
+            const response = await todosService.deleteTodo(req.params.id, req.user.userId)
+            res.status(response.affectedRows?204:404).send();
         }
         catch (ex) {
             const err = {}
@@ -64,8 +64,8 @@ export class TodosController {
             console.log("todos");
             console.log(req.params.id);
             console.log(req.body);
-            await todosService.updateTodo(req.body, req.params.id, req.user.userId)
-            res.status(204).json().send();
+            const response = await todosService.updateTodo(req.body, req.params.id, req.user.userId)
+            res.status(response.affectedRows?204:404).json().send();
         }
         catch (ex) {
             const err = {}

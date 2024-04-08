@@ -51,8 +51,8 @@ export class CommentsController {
         try {
             console.log("comments");
             console.log(req.params.id);
-            await commentsService.deleteComment(req.params.id, req.user.userId)
-            res.status(204).send();
+            const response = await commentsService.deleteComment(req.params.id, req.user.userId)
+            res.status(response.affectedRows?204:404).send();
         }
         catch (ex) {
             const err = {}
@@ -68,8 +68,8 @@ export class CommentsController {
             console.log(req.params.id);
             console.log(req.body);
             await commentsService.updateComment(req.body, req.params.id, req.user.userId)
-            console.log("update successfuly")
-            res.status(204).send();
+            const response = console.log("update successfuly")
+            res.status(response.affectedRows?204:404).send();
         }
         catch (ex) {
             const err = {}
