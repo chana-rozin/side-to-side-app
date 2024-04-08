@@ -16,11 +16,8 @@ import authenticateToken from "./middleware/authenticateToken.js";
 
 const app = express();
 
-// Setting up Morgan logging
-const __dirname = path.dirname(new URL(import.meta.url).pathname);
-const accessLogStream = fs.createWriteStream(path.join(__dirname, 'access.log'), { flags: 'a' });
+const accessLogStream = fs.createWriteStream(path.join(process.cwd(), 'access.log'), { flags: 'a' });
 app.use(morgan('combined', { stream: accessLogStream }));
-
 // Other middleware
 app.use(cors());
 app.use(express.json());

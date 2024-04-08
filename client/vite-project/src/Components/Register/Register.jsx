@@ -1,6 +1,7 @@
 import { useState, useContext, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { userContext } from "../../App";
+import Cookies from "js-cookie";
 import style from './Register.module.css'
 
 const Register = () => {
