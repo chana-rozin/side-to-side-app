@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { userContext } from "../../App";
 import { cacheContext } from "../../App";
 import Cookies from 'js-cookie';
@@ -28,6 +28,7 @@ const AddPost = (props) => {
     }
 
     async function addPost() {
+        console.log(post)
         await fetch("http://localhost:3000/posts", {
             method: 'POST',
             body: JSON.stringify(post),
