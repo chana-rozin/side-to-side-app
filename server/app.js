@@ -7,6 +7,7 @@ import photosRouter from "./routes/photosRoute.js";
 import postsRouter from "./routes/postsRoute.js";
 import todosRouter from "./routes/todosRoute.js";
 import loginRouter from "./routes/loginRoute.js"
+import registerRouter from "./routes/registerRoute.js";
 import cors from "cors";
 import authenticateToken from "./middleware/authenticateToken.js";
 const app = express();
@@ -17,7 +18,8 @@ app.use(cors());
 //   }
 app.use(express.json());
 
-app.use("/login", loginRouter)
+app.use("/login", loginRouter);
+app.use("/register", registerRouter);
 
 app.use(authenticateToken);
 app.use("/users", usersRouter);

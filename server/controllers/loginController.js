@@ -12,6 +12,7 @@ export class LoginController{
         const { username, psw } = req.body;
         try {
             let user = await loginService.login(username, psw);
+            console.log(user);
             if (user) {
                 user = await loginService.getUserByUsername(username, user.id);
                 user=user[0];

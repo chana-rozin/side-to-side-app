@@ -7,12 +7,13 @@ import Albums from './Components/Albums/Albums'
 import Posts from './Components/Posts/Posts'
 import Comments from './Components/Comments/Comments'
 import Info from './Components/Info/Info'
+import Register from './Components/Register/Register'
 import Photos from './Components/Photos/Photos'
 import Layout from './Components/Layout/Layout'
 import PrivateRoute from './Components/PrivateRoute/PrivateRoute'
-
 import {createContext, useEffect, useState } from 'react'
 import { BrowserRouter as Router, Route, Routes, Navigate, useNavigate, useParams, renderMatches } from 'react-router-dom'
+
 export const userContext = createContext()
 export const cacheContext = createContext()
 
@@ -63,6 +64,7 @@ function App() {
             <Routes>
               <Route path='/' element={<Navigate to={currentUser != null ? "/home" : "/Login"} />} />
               <Route path='/login' element={<Login />} />
+              <Route path='/register' element={<Register />} />
               <Route element={<PrivateRoute />}>
                 <Route element={<Layout />}>
                   <Route path='/home' element={<Home />} />

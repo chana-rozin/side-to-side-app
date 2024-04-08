@@ -22,8 +22,9 @@ export class LoginService{
         try {
             const query = getByIdQuery('access', 'username');
             const [user] = await executeQuery(query, [username]);
-            console.log('logged user', password, user.psw)
+           // console.log('logged user', password, user.psw)
             //if (user && await bcrypt.compare(password, user.psw)) {
+                console.log(user);
             if (user && password === user.psw) {
                 console.log("got user and compare psw")
                 delete user.psw; // Remove password from response
