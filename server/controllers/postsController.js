@@ -1,4 +1,5 @@
 import { PostsService } from '../services/postsService.js'
+import { authorizeUser } from '../middleware/authorizationMiddleware.js';
 
 const postsService = new PostsService();
 
@@ -49,7 +50,11 @@ export class PostsController {
         try {
             console.log("posts");
             console.log(req.params.id);
+            const postDetails = await postsService.getPostById(req.params.id);
+            console.log("post details: ", postDetails[0]);
+            authorizeUser(postDetails[0].userId, req.user.id, res, next);
             const response = await postsService.deletePost(req.params.id);
+            console.log("affect rows: ", response.affectedRows)
                 res.status(response.affectedRows?204:404).send();
         }
         catch (ex) {
@@ -89,6 +94,7 @@ export class PostsController {
         }
     }
 
+    
     
 
 }
