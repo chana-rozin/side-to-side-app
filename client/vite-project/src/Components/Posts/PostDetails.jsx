@@ -46,6 +46,7 @@ const PostDetails = (props) => {
                     }
                     default:{
                         alert('Fail to delete')
+                        break;
                     }
                 }
         })

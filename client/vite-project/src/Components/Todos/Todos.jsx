@@ -50,6 +50,7 @@ const Todos = () => {
                         }
                         default: {
                             setError(true);
+                            break;
                         }
                     }
                 })
@@ -80,12 +81,15 @@ const Todos = () => {
                         localStorage.setItem("todos", JSON.stringify({ user: currentUser.id, data: updataData }))
                         updateCacheFrequencies("todos");
                         setTodosArr(updataData);
+                        break;
                     }
                     case 403: {
                         alert(`Forbidden`)
+                        break;
                     }
                     default: {
                         alert('Fail to delete')
+                        break;
                     }
                 }
             })

@@ -50,13 +50,15 @@ export class TodosController {
         try {
             console.log("todos");
             console.log(req.params.id);
-            const todiDetails = await todosService.getPostById(req.params.id);
-            console.log("todo details: ", todiDetails[0]);
-            authorizeUser(todiDetails[0].userId, req.user.id, res);
+            const todoDetails = await todosService.getTodoById(req.params.id);
+            console.log("todo details: ", todoDetails[0]);
+            authorizeUser(todoDetails[0].userId, req.user.id, res);
             const response = await todosService.deleteTodo(req.params.id)
+            console.log("selete succesfully")
             res.status(response.affectedRows ? 204 : 404).send();
         }
         catch (ex) {
+            console.log(ex);
             const err = {}
             err.statusCode = 500;
             err.message = ex;
