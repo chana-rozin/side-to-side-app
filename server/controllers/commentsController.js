@@ -8,8 +8,8 @@ export class CommentsController {
     async getComments(req, res, next) {
         try {
 
-            const resultItems = await commentsService.getComments(req.query, req.user.userId)
-            return res.status(200).json(resultItems);
+            const resultItems = await commentsService.getComments(req.query)
+                return res.status(200).json(resultItems);
         }
         catch (ex) {
             const err = {}
@@ -21,8 +21,8 @@ export class CommentsController {
 
     async getCommentById(req, res, next) {
         try {
-            const resultItem = await commentsService.getCommentById(req.params.id, req.user.userId);
-            res.status(200).json(resultItem);
+            const resultItem = await commentsService.getCommentById(req.params.id);
+                res.status(200).json(resultItem);
         }
         catch (ex) {
             const err = {}
@@ -35,8 +35,8 @@ export class CommentsController {
 
     async addComment(req, res, next) {
         try {
-            const result =  await commentsService.addComment(req.body, req.user.userId);
-            res.status(201).json({insertId: result.insertId});
+            const result =  await commentsService.addComment(req.body);
+                res.status(201).json({insertId: result.insertId});
         }
         catch (ex) {
             const err = {}
@@ -51,8 +51,8 @@ export class CommentsController {
         try {
             console.log("comments");
             console.log(req.params.id);
-            const response = await commentsService.deleteComment(req.params.id, req.user.userId)
-            res.status(response.affectedRows?204:404).send();
+            const response = await commentsService.deleteComment(req.params.id);
+                res.status(response.affectedRows?204:404).send();
         }
         catch (ex) {
             const err = {}
@@ -67,9 +67,9 @@ export class CommentsController {
             console.log("comments");
             console.log(req.params.id);
             console.log(req.body);
-            await commentsService.updateComment(req.body, req.params.id, req.user.userId)
-            const response = console.log("update successfuly")
-            res.status(response.affectedRows?204:404).send();
+            await commentsService.updateComment(req.body, req.params.id);
+            const response = console.log("update successfuly");
+                res.status(response.affectedRows?204:404).send();
         }
         catch (ex) {
             const err = {}

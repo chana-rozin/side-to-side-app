@@ -38,9 +38,9 @@ export class LoginService{
         }
     };
 
-    async getUserByUsername(username, activeUserId){
+    async getUserByUsername(username){
         const queryUser = getByIdQuery('users', 'username', true);
-        const result =  await executeQuery(queryUser, [username], activeUserId);
+        const result =  await executeQuery(queryUser, [username]);
         return result;
     }
     

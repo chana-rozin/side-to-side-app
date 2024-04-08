@@ -1,5 +1,6 @@
 import  express from "express";
 import 'dotenv/config'
+import morgan from 'morgan';
 import usersRouter from "./routes/usersRoute.js"
 import albumsRouter from "./routes/albumsRoute.js";
 import commentsRouter from "./routes/commentsRoute.js";
@@ -10,17 +11,16 @@ import loginRouter from "./routes/loginRoute.js"
 import registerRouter from "./routes/registerRoute.js";
 import cors from "cors";
 import authenticateToken from "./middleware/authenticateToken.js";
+
+// const accessLogStream = fs.createWriteStream(path.join(__dirname, 'access.log'), { flags: 'a' });
+// app.use(morgan('combined', { stream: accessLogStream }));
+
 const app = express();
-
 app.use(cors());
-// {
-//     origin: 'http://localhost:5173'
-//   }
 app.use(express.json());
-
+app.use(morgan('dev'));
 app.use("/login", loginRouter);
 app.use("/register", registerRouter);
-
 app.use(authenticateToken);
 app.use("/users", usersRouter);
 app.use("/todos", todosRouter);

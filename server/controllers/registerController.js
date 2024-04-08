@@ -10,6 +10,7 @@ const registerService = new RegisterService();
 export class RegisterController {
 
     async register(req, res, next) {
+        
         try {
             let existUsername = await registerService.getUsers({ username: req.body.username });
             let existEmail = await registerService.getUsers({ email: req.body.email });
@@ -28,6 +29,7 @@ export class RegisterController {
     }
 
     async existUser(req, res, next) {
+
         try {
             const {username, email} = req.query
             let existUsername = await registerService.getUsers({ username: username });
