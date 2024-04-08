@@ -11,7 +11,7 @@ const Register = () => {
     const { setCurrentUser } = useContext(userContext);
     const [available, setAvailable] = useState({ username: true, email: true })
     const navigate = useNavigate();
-    const user = {
+    const [user, setUser] = useState({
         "name": "",
         "username": "",
         "email": "",
@@ -22,7 +22,7 @@ const Register = () => {
         },
         "phone": "",
         "psw": ""
-    }
+    });
 
     async function handleNextBtn(event) {
         event.preventDefault();
@@ -38,9 +38,11 @@ const Register = () => {
     }
 
     function requestMoreDetails(event) {
-        user.username = event.target.username.value;
-        user.psw = event.target.password.value;
-        user.email = event.target.email.value;
+        setUser(prev=>({...user,
+            username:event.target.username.value,
+            psw: event.target.password.value,
+            email: event.target.email.value
+        }))
         setRgisterStep(2);
     }
 
@@ -57,6 +59,7 @@ const Register = () => {
 
 
     async function addUser() {
+        console.log(user)
         await fetch("http://localhost:3000/register", {
             method: 'POST',
             body: JSON.stringify(user),
