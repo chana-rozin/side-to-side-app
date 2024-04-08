@@ -67,9 +67,11 @@ const Register = () => {
                 'Content-type': 'application/json; charset=UTF-8',
             },
         })
-            .then((response) => {
-                if (response.status === 201) {
+            .then(async (respons) => {
+                if (respons.status === 201) {
                     delete user["psw"]
+                    const resBody = await respons.json();
+                    Cookies.set('token', resBody.token, { expires: 3});
                     localStorage.setItem("currentUser", JSON.stringify(user));
                     setCurrentUser(user);
                     navigate("/home", { replace: true });
