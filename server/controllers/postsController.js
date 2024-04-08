@@ -51,8 +51,7 @@ export class PostsController {
             console.log("posts");
             console.log(req.params.id);
             const postDetails = await postsService.getPostById(req.params.id);
-            console.log("post details: ", postDetails[0]);
-            authorizeUser(postDetails[0].userId, req.user.id, res, next);
+            authorizeUser(postDetails[0].userId, req.user.id, res);
             const response = await postsService.deletePost(req.params.id);
             console.log("affect rows: ", response.affectedRows)
                 res.status(response.affectedRows?204:404).send();

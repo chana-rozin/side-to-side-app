@@ -50,6 +50,8 @@ export class UsersController {
         try {
             console.log("users");
             console.log(req.params.id);
+            const userDetails = await usersService.getUserById(req.params.id);
+            authorizeUser(userDetails[0].id, req.user.id, res);
             const response = await usersService.deleteUser(req.params.id);
                 res.status(response.affectedRows?204:404).send();
         }

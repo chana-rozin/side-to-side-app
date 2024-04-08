@@ -51,6 +51,8 @@ export class CommentsController {
         try {
             console.log("comments");
             console.log(req.params.id);
+            const commentsDetails = await commentsService.getCommentById(req.params.id);
+            authorizeUser(commentsDetails[0].email, req.user.email, res);
             const response = await commentsService.deleteComment(req.params.id);
                 res.status(response.affectedRows?204:404).send();
         }
