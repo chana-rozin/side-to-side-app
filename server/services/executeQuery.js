@@ -1,8 +1,7 @@
 import { createConnection } from './db.js';
-import { logAction } from '../logging/logger.js';
 
 
-async function executeQuery(query, params, userId) {
+async function executeQuery(query, params) {
   let results;
   console.log(params);
   const connection = await createConnection();
@@ -10,9 +9,6 @@ async function executeQuery(query, params, userId) {
   try {
     [results] = await connection.execute(query, params);
     console.log("query executed successfully:", results);
-    if (userId) {
-      await logAction(`Query executed: ${query}`, userId);
-    }
   } catch (err) {
     console.log("error executing query:", err);
     throw `error executing query: ${err}`
