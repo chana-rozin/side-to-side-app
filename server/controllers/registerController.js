@@ -20,7 +20,8 @@ export class RegisterController {
             } else {
                 //await registerService.addUser({ ...req.body, psw: await bcrypt.hash(req.body.psw, 10) })
                 const response = await registerService.addUser(req.body)
-                const token = jwt.sign({ id: req.body.id, username: req.body.username, email: req.body.email }, process.env.JWT_SECRET, { expiresIn: '1h' });
+                req.body.id = response.body.insertId
+                const token = jwt.sign({  username: req.body.username, id: req.body.id, email: req.body.email }, process.env.JWT_SECRET, { expiresIn: '1h' });
                 res.status(201).json({ insertId: response.userResult.insertId, token: token });
             }
         } catch (error) {
